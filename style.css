@@ -1,0 +1,122 @@
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    padding: 0 20px;
+}
+
+.header h1 {
+    margin: 0;
+}
+
+.header button {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    color: #000;
+}
+
+.container {
+    max-width: 600px;
+    width: 100%;
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #FFFFFF;
+    border-radius: 10px;
+}
+
+.container form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.container form.hide {
+    display: none;
+}
+
+.container #image-container {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 200px;
+}
+
+.container #image-container img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    max-height: 400px;
+}
+
+.container #text-file-container {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.input-group .submit-button {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    color: #000;
+}  
+
+.container #reveal-button {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    color: #000;
+}
+
+.input-group .input-field {
+    flex-grow: 2;
+    padding: 5px;
+    width: 50%; /* Adjust the width as per your preference */
+    max-width: 215px; /* Optional: Set a maximum width if desired */
+}
+
+.input-group {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.input-group label {
+    margin-right: 10px;
+}
+
+.input-group input {
+    flex-grow: 1;
+    padding: 5px;
+}
+
+/* Media Queries */
+@media screen and (max-width: 600px) {
+    .container {
+        padding: 10px;
+    }
+
+    .container #image-container img {
+        max-height: 300px;
+    }
+
+    .input-group .input-field {
+        width: 100%;
+        max-width: none;
+    }
+}
