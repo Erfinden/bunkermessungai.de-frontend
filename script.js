@@ -49,7 +49,7 @@ function logout() {
 }
 
 function showData(key) {
-    fetch('http:<server-ip>//:5000/user_read', {
+    fetch('http://<server-ip>//:5000/user_read', {
         method: 'POST',
         body: new URLSearchParams({ key })
     })
