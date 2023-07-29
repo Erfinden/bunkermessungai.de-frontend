@@ -1,28 +1,28 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     var storedKey = localStorage.getItem('key');
-  
+
     if (storedKey) {
-      showData(storedKey);
+        showData(storedKey);
     } else {
-      showLoginForm();
+        showLoginForm();
     }
 });
-  
-document.querySelector('#key-form').addEventListener('submit', function(event) {
+
+document.querySelector('#key-form').addEventListener('submit', function (event) {
     event.preventDefault();
     var key = document.getElementById('key').value;
     localStorage.setItem('key', key);
     showData(key);
 });
-  
-document.getElementById('logout-button').addEventListener('click', function() {
+
+document.getElementById('logout-button').addEventListener('click', function () {
     window.location.reload();
-    logout(); 
+    logout();
     window.location.reload();
 });
 
 
-document.getElementById('delete-account-button').addEventListener('click', function() {
+document.getElementById('delete-account-button').addEventListener('click', function () {
     deleteAccount();
     window.location.reload();
     logout();
@@ -31,13 +31,13 @@ document.getElementById('delete-account-button').addEventListener('click', funct
 
 
 function showLoginForm() {
+    var quickmenu = document.getElementById("quickmenu");
+    quickmenu.classList.remove("show"); 
     var keyForm = document.getElementById('key-form');
-    keyForm.style.display = 'block';
-  
-    // Reset other elements
-    document.getElementById('email').value = '';
+    keyForm.style.display = 'flex';
+
     document.getElementById('email-button').disabled = true;
-    document.querySelector('#key-form .submit-button').style.display = 'block';
+    document.querySelector('#key-form .submit-button').style.display = 'flex';
     document.getElementById('delete-account-button').style.display = 'none';
 }
 
@@ -49,103 +49,181 @@ function logout() {
 }
 
 function showData(key) {
-    fetch('http://<server-ip>//:5000/user_read', {
+    fetch('http://128.140.90.80:5000/user_read', {
         method: 'POST',
         body: new URLSearchParams({ key })
     })
-    .then(response => response.json())
-    .then(function(data) {
-        if (data.error) {
+        .then(response => response.json())
+        .then(function (data) {
+            if (data.error) {
+                var container = document.querySelector('.container');
+                container.classList.remove('show');
+                container.innerHTML = '';
+                var errorMessage = document.createElement('p');
+                errorMessage.textContent = 'Invalid Key!';
+                errorMessage.style.fontSize = '24px';
+                errorMessage.style.fontWeight = 'bold';
+                errorMessage.style.color = 'red';
+                errorMessage.style.textAlign = 'center';
+                container.appendChild(errorMessage);
+
+                setTimeout(function () {
+                    window.location.reload();
+                    logout();
+                    window.location.reload();
+                }, 3000); // Log out after 3 seconds
+
+                return;
+            }
+
+            var imageUrl = data.image_url;
+            var textFileUrl = data.text_file_url;
+            
             var container = document.querySelector('.container');
-            container.classList.remove('show');
-            container.innerHTML = '';
-            var errorMessage = document.createElement('p');
-            errorMessage.textContent = 'Invalid Key!';
-            errorMessage.style.fontSize = '24px';
-            errorMessage.style.fontWeight = 'bold';
-            errorMessage.style.color = 'red';
-            errorMessage.style.textAlign = 'center';
-            container.appendChild(errorMessage);
+            container.classList.add('show');
 
-            setTimeout(function() {
-                window.location.reload();
-                logout();
-                window.location.reload();
-            }, 3000); // Log out after 3 seconds
+            var imageContainer = document.getElementById('image-container');
+            var imageElement = document.createElement('img');
+            imageElement.src = imageUrl;
+            imageContainer.innerHTML = '';
+            imageContainer.appendChild(imageElement);
 
-            return;
-        }
+            var textFileContainer = document.getElementById('text-file-container');
+            textFileContainer.innerHTML = '';
+            fetch(textFileUrl)
+                .then(response => response.text())
+                .then(function (text) {
+                    var textElement = document.createElement('pre');
+                    textElement.textContent = text;
+                    textFileContainer.appendChild(textElement);
 
-        var imageUrl = data.image_url;
-        var textFileUrl = data.text_file_url;
+                    // Extract and round the percentage value
+                    var percentage = parseFloat(text.match(/Percentage: (\d+\.\d+)%/)[1]);
+                    var roundedPercentage = Math.round(percentage);
 
-        var container = document.querySelector('.container');
-        container.classList.add('show');
+                    // Extract the prediction and confidence values
+                    var prediction = text.match(/Prediction: (.+)/)[1];
+                    var confidence = parseFloat(text.match(/Confidence: (\d+\.\d+)/)[1]);
 
-        var imageContainer = document.getElementById('image-container');
-        var imageElement = document.createElement('img');
-        imageElement.src = imageUrl;
-        imageContainer.innerHTML = '';
-        imageContainer.appendChild(imageElement);
+                    var textContainer = document.getElementById('text-container');
+                    textContainer.innerHTML = '';
 
-        var textFileContainer = document.getElementById('text-file-container');
-        textFileContainer.innerHTML = '';
-        fetch(textFileUrl)
-            .then(response => response.text())
-            .then(function(text) {
-                var textElement = document.createElement('pre');
-                textElement.textContent = text;
-                textFileContainer.appendChild(textElement);
-            })
-            .catch(function(error) {
-                console.error('Error:', error);
-            });
+                    // Display the prediction and confidence values
+                    var predictionElement = document.createElement('p');
+                    predictionElement.textContent = 'Prediction: ' + prediction;
+                    textContainer.appendChild(predictionElement);
 
-        var keyForm = document.getElementById('key-form');
-        keyForm.classList.remove('hide');
+                    var confidenceElement = document.createElement('p');
+                    confidenceElement.textContent = 'Percentage: ' + percentage + "%";
+                    textContainer.appendChild(confidenceElement);
 
-        var logoutButton = document.getElementById('logout-button');
-        logoutButton.style.display = 'block';
+                    var confidenceElement = document.createElement('p');
+                    confidenceElement.textContent = 'Confidence: ' + confidence;
+                    textContainer.appendChild(confidenceElement);
 
-        var emailGroup = document.getElementById('email-group');
-        emailGroup.style.display = 'flex';
+                    // Display the rounded percentage at the bottom of the page
+                    var percentageElement = document.createElement('p');
+                    //percentageElement.textContent = 'Rounded Percentage: ' + roundedPercentage + '%';
+                    document.body.appendChild(percentageElement);
 
-        var emailInput = document.getElementById('email');
-        var emailButton = document.getElementById('email-button');
+                    // Create a bar chart
 
-        emailInput.value = data.email;
-        emailButton.disabled = false;
+                    var chartCanvas = document.getElementById('barChart');
+                    chartCanvas.className = 'chart';
+                    chartCanvas.style.maxWidth = '70px';
 
-        var keyInput = document.getElementById('key');
-        keyInput.value = key;
-        keyInput.readOnly = true;
+                    var chartData = {
+                        labels: ['Füllstand'],
+                        datasets: [{
+                            label: '',
+                            data: [roundedPercentage],
+                            backgroundColor: 'rgba(0, 123, 255, 0.8)',
+                            borderColor: 'rgba(100, 123, 255, 1)',
+                            borderWidth: 0,
+                        }]
+                    };
 
-        document.querySelector('#key-form .submit-button').style.display = 'none';
-        var deleteAccountButton = document.getElementById('delete-account-button');
-        deleteAccountButton.style.display = 'block';
-        deleteAccountButton.addEventListener('click', deleteAccount);
-    });
+                    var chartOptions = {
+                        responsive: true,
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: '',
+                                font: {
+                                    size: 10
+                                    
+                                }
+                            }
+                        },
+
+
+
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                max: 100,
+                                ticks: {
+                                    stepSize: 10
+                                }
+                                
+                            }
+                        }
+                    };
+
+                    var barChart = new Chart(chartCanvas, {
+                        type: 'bar',
+                        data: chartData,
+                        options: chartOptions
+                    });
+                })
+                .catch(function (error) {
+                    console.error('Error:', error);
+                });
+
+            var keyForm = document.getElementById('key-form');
+            keyForm.classList.remove('hide');
+            keyForm.style.display = 'none';
+
+            var logoutButton = document.getElementById('logout-button');
+            logoutButton.style.display = 'block';
+
+            var emailGroup = document.getElementById('email-group');
+            emailGroup.style.display = 'flex';
+
+            var emailInput = document.getElementById('email');
+            var emailButton = document.getElementById('email-button');
+
+            emailButton.disabled = false;
+
+            var keyInput = document.getElementById('key');
+            keyInput.value = key;
+            keyInput.readOnly = true;
+
+            const test = document.querySelector('#email-group .submit-button');
+            console.log(test == null, "isNull");
+
+            document.querySelector('#email-group .submit-button').style.display = 'block';
+            var deleteAccountButton = document.getElementById('delete-account-button');
+            deleteAccountButton.style.display = 'block';
+            deleteAccountButton.addEventListener('click', deleteAccount);
+
+        });
 }
 
 function updateEmail() {
     var key = document.getElementById('key').value;
-    var email = document.getElementById('email').value;  
-  
-    fetch('http://<server-ip>:5000/update_email', {
-        method: 'POST',
-        body: new URLSearchParams({ key, email })
-    })
-    .then(response => response.json())
-    .then(function(data) {
-        if (data && data.error) {
-            console.error('Error:', data.error);      
-        } else {
-            console.log('Email updated successfully');
-        }
-    })
-    .catch(function(error) {
-        console.error('Error:', error);
-    });
+    var email = document.getElementById('email').value;
+    var validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    if (email.match(validRegex)) {
+        fetch('http://128.140.90.80:5000/update_email', {
+            method: 'POST',
+            body: new URLSearchParams({ key, email })
+        })
+            alert("Email successfully updated to \"" + [email]+ "\"!");
+    }
+    else{
+        alert("Invalid email address!");
+    }
 }
 
 function deleteAccount() {
@@ -154,21 +232,39 @@ function deleteAccount() {
     if (result) {
         var key = document.getElementById('key').value;
 
-        fetch('http://<server-ip>:5000/remove', {
+        fetch('http://128.140.90.80:5000/remove', {
             method: 'POST',
             body: new URLSearchParams({ key })
         })
-        .then(response => response.text())
-        .then(function(result) {
-            console.log(result);
-            logout();
-        })
-        .catch(function(error) {
-            console.error('Error:', error);
-        });
+            .then(response => response.text())
+            .then(function (result) {
+                console.log(result);
+                logout();
+            })
+            .catch(function (error) {
+                console.error('Error:', error);
+            });
     }
 }
+function toggleDarkLightMode() {
+    const body = document.body;
+    body.classList.toggle('dark-mode');
 
+    // Store the current mode in localStorage to remember the user's preference
+    const isDarkMode = body.classList.contains('dark-mode');
+    localStorage.setItem('darkMode', isDarkMode);
+}
+
+// Check if Dark Mode is already enabled from localStorage
+document.addEventListener('DOMContentLoaded', function () {
+    const isDarkMode = localStorage.getItem('darkMode') === 'true';
+    if (isDarkMode) {
+        document.body.classList.add('dark-mode');
+    }
+});
+
+// Event listener for the Dark/Light Mode button click
+document.getElementById('dark-light-mode-button').addEventListener('click', toggleDarkLightMode);
 
 var keyInput = document.getElementById('key');
 
@@ -182,4 +278,10 @@ function toggleKeyVisibility() {
         keyInput.type = 'password';
         revealButton.innerHTML = '<i class="fas fa-eye"></i>';
     }
+}
+
+function openquickmenu(x) {
+    x.classList.toggle("change");
+    var quickmenu = document.getElementById("quickmenu");
+    quickmenu.classList.toggle("show");
 }
