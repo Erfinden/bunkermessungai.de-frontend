@@ -36,6 +36,7 @@ body {
 
 #content-img{
     position: relative;
+    justify-content: center;
 }
 
 #image-container{
@@ -44,7 +45,6 @@ body {
 
 .text-container{
     position:absolute;
-    top: 15px;
     left: 15px;
     color: white;
 }
@@ -235,6 +235,10 @@ body {
     background-color: transparent;
     text-align: center;
 
+}
+
+#content-img{
+    align-items: center !important;
 }
 
 .dark-mode .input-group .input-field{
