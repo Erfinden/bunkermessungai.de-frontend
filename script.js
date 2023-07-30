@@ -78,6 +78,14 @@ function showData(key) {
 
             var imageUrl = data.image_url;
             var textFileUrl = data.text_file_url;
+            var email = data.email;
+            var name =  data.name;
+
+            var emailInput = document.getElementById('email');
+            emailInput.placeholder = email;
+
+            var nameInput = document.getElementById('name');
+            nameInput.placeholder = name;
             
             var container = document.querySelector('.container');
             container.classList.add('show');
@@ -137,8 +145,8 @@ function showData(key) {
                         datasets: [{
                             label: '',
                             data: [roundedPercentage],
-                            backgroundColor: 'rgba(0, 123, 255, 0.8)',
-                            borderColor: 'rgba(100, 123, 255, 1)',
+                            backgroundColor: 'rgba(255, 50, 50, 1)',
+                            borderColor: 'rgba(255, 0, 0, 1)',
                             borderWidth: 0,
                         }]
                     };
@@ -190,6 +198,9 @@ function showData(key) {
             var emailGroup = document.getElementById('email-group');
             emailGroup.style.display = 'flex';
 
+            var emailGroup = document.getElementById('name-group');
+            emailGroup.style.display = 'flex';
+
             var emailInput = document.getElementById('email');
             var emailButton = document.getElementById('email-button');
 
@@ -202,7 +213,11 @@ function showData(key) {
             const test = document.querySelector('#email-group .submit-button');
             console.log(test == null, "isNull");
 
+            const test2 = document.querySelector('#name-group .submit-button');
+            console.log(test2 == null, "isNull");
+
             document.querySelector('#email-group .submit-button').style.display = 'block';
+            document.querySelector('#name-group .submit-button').style.display = 'block';
             var deleteAccountButton = document.getElementById('delete-account-button');
             deleteAccountButton.style.display = 'block';
             deleteAccountButton.addEventListener('click', deleteAccount);
@@ -224,6 +239,16 @@ function updateEmail() {
     else{
         alert("Invalid email address!");
     }
+}
+
+function updateName() {
+    var key = document.getElementById('key').value;
+    var name = document.getElementById('name').value;
+    fetch('http://128.140.90.80:5000/update_name', {
+        method: 'POST',
+        body: new URLSearchParams({ key, name })
+    })
+    alert("Camera Name successfully updated to \"" + [name]+ "\"!");
 }
 
 function deleteAccount() {
