@@ -1,28 +1,67 @@
-@media screen and (max-width: 700px) {
-    .header-title{
-        display: none !important;
-    }
-    .header-title-small{
-        display:block !important;
-    }
+@media screen and (max-width: 750px) {
     .quickmenu{
         flex-direction: column !important;
     }
     .header{
-        margin-left: 35px !important;
-        margin-top: 0px !important;
+        margin-left: 20px !important;
+        margin-top: 6px !important;
+        word-break: break-all;  
+        text-align: center;
+        font-size: small;
     } 
     .container{
         padding: 0px !important;
     }
-    .text-container p{
-        margin-right: 150px;
-    }
-    .content{
-         margin: 0 10px;
+
+    .input-group{
+        width: 100%;
+        margin: 0px !important;
     }
 }
 
+.adv{
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    display: none;
+    flex-direction: column;
+    margin-bottom: 10px;
+    transition: max-height 0.3s ease-out, opacity 0.2s ease-out;
+    overflow: hidden;
+    max-height: 0;
+}
+
+.rotated {
+    transform: rotate(180deg);
+}
+
+#angle-down{
+    margin-left: 5px;
+    font-size: 30px;
+    min-width: 35px;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    transition: ease-in-out 0.3s;
+}
+
+#angle-down:hover{
+    color:rgb(0, 38, 255);
+    cursor: pointer;
+    
+}
+
+.dark-mode #angle-down:hover{
+    color: white;
+    background-color: rgb(77, 77, 77, 0.6) !important;
+}
+
+.status-light{
+    min-width: 25px;
+}
 
 body {
     margin: 0;
@@ -32,6 +71,21 @@ body {
     font-family: "Nunito";
     display: flex;
     
+}
+
+.status-light{
+    background-color: red;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    margin-right: 5px;
+    border-width: 1px;
+    border: solid;
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+.dark-mode .status-light{
+    border-color: rgba(0, 0, 0, 0.35);
 }
 
 #content-img{
@@ -126,6 +180,72 @@ body {
     margin-left: 100px;
 }
 
+.slider-container{
+    display:flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 420px;    
+}
+
+.slider{
+    appearance: none;
+    width: 100%;
+    border-radius: 20px;
+    border-color: rgba(1, 1, 1, .5);
+    border-style: solid;
+    border-width: 2px;
+    height: 10px;
+    opacity: 0.7;
+    -webkit-transition: .3s;
+    transition: opacity .3s;
+}
+
+.slider:hover {
+    opacity: 1;
+  }
+  
+
+.dark-mode .slider{
+    border-color: rgba(128, 128, 128, 0.3);
+}
+
+.slider::-webkit-slider-thumb {
+    appearance: none;
+    width: 25px;
+    height: 20px;
+    border-radius: 15px;
+    border-style: solid;
+    border-color: rgba(0, 0, 0, 0.5);
+    background: rgb(175, 175, 175);
+    cursor: pointer;
+}
+
+.dark-mode .slider::-webkit-slider-thumb {
+    border-color: rgba(0, 0, 0, 0.5);
+}
+
+.slider::-moz-range-thumb {
+    appearance: none;
+    width: 25px;
+    height: 20px;
+    border-radius: 15px;
+    border-style: solid;
+    border-color: rgba(0, 0, 0, 0.5);
+    background: rgb(175, 175, 175);
+    cursor: pointer;
+}
+
+.slidecontainer{
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+}
+
+.slidecontainer p{
+    margin: 0px;
+}
+
 .header h1 {
     margin: 0;
 }
@@ -159,6 +279,10 @@ body {
     width: 100%;
     padding: 10px 20px;
     background-color: transparent;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
 }
 
 .container form {
@@ -277,7 +401,10 @@ body.dark-mode {
     display: flex;
 }
 
-
+.content{
+    border-radius: 20px;
+    overflow: hidden;
+}
 
 .container #image-container{
     border-radius: 20px;
@@ -291,7 +418,6 @@ body.dark-mode {
 #image-container img {
     max-width: 100%;
     max-height: 400px;
-    margin-top:20px;
 }
 
 #barChart {
@@ -299,4 +425,63 @@ body.dark-mode {
     box-sizing: border-box;
     width: 70px;
     align-items: end;
+}
+
+#content-img{
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.camlinktop{
+    background: rgba(111, 111, 111, 0.5);
+    text-decoration: none;
+    color: white;
+    width: 35px;
+    height: 30px;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 5px;
+    transition: 0.3s ease-in-out;
+}
+
+.camlinktop:hover{
+    background: rgba(111, 111, 111, 0.8);
+}
+
+.camlink{
+    position: absolute;
+    top:0px;
+    left:0px;
+    z-index: 5;
+    background: rgba(0, 0, 0, 0.5);
+    text-decoration: none;
+    color: white;
+    padding: 5px 10px 10px 5px;
+    border-bottom-right-radius: 20px;
+}
+
+.archive_btn{
+    position:absolute;
+    left:0px;
+    bottom:0px;
+    background: rgba(0, 0, 0, 0.5);
+    text-decoration: none;
+    color: white;
+    padding: 5px 10px;
+    border-top-right-radius: 20px;
+}
+
+.try-again-button{
+    border: none;
+    border-radius: 5px;
+    font-family: "Nunito";
+    transition: background-color 0.3s ease-in-out;
+    cursor: pointer;
+    background: grey;
+}
+
+.try-again-button:hover{
+    background-color: red;
 }
