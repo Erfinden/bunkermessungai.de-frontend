@@ -130,7 +130,7 @@ var storedKey = localStorage.getItem('key');
 
 
 function deleteItem(key, name) {
-    if (confirm('Are you sure?')) {
+    if (confirm('Willst du dieses Bild wirklich löschen?')) {
         fetch(`http://128.140.90.80:5000/remove_picture/${key}/${name}`, {
             method: 'POST'
         })
@@ -170,10 +170,41 @@ if (storedKey) {
         var contentDiv = document.getElementById('content');
 
         // Loop through the names and create items dynamically
+        var backgroundDiv = document.getElementById('zoomed-in-background');
+
         data.names.forEach(name => {
             // Create a new item div
             var itemDiv = document.createElement('div');
             itemDiv.classList.add('item');
+        
+            // Add an event listener to toggle the zoomed-in class on click
+            itemDiv.addEventListener('click', function() {
+                itemDiv.classList.remove('zoomed-in');
+                backgroundDiv.style.display = 'none';
+                if (itemDiv.classList.contains('zoomed-in')) {
+                    document.body.removeChild(backgroundDiv);
+                    itemDiv.classList.remove('zoomed-in');
+                    backgroundDiv.style.display = 'none';
+                    bottomText.textContent = itemDiv.getAttribute('data-percentage') + '%';
+                } else {
+                    itemDiv.classList.add('zoomed-in');
+                    backgroundDiv.style.display = 'block';
+                    document.getElementById('main').appendChild(backgroundDiv);
+                    bottomText.textContent = itemDiv.getAttribute('data-full-text');
+        
+                    // Add an event listener to the background to zoom out the item when clicked
+                    backgroundDiv.addEventListener('click', function() {
+                        itemDiv.classList.remove('zoomed-in');
+                        backgroundDiv.style.display = 'none';
+                        const percentageMatch = itemDiv.getAttribute('data-full-text').match(/Percentage: (\d+(\.\d+)?)%/);
+                        if (percentageMatch) {
+                            let percentage = parseFloat(percentageMatch[1]);
+                            percentage = Math.round(percentage);
+                            bottomText.textContent = percentage + '%';
+                        }
+                    });
+                }
+            });     
 
             // Create the top text element
             var topTextDiv = document.createElement('div');
@@ -210,6 +241,9 @@ if (storedKey) {
                 // Use a regular expression to find the percentage value in the text
                 const percentageMatch = text.match(/Percentage: (\d+(\.\d+)?)%/);
                 
+                // Store the full text as a data attribute on the itemDiv
+                itemDiv.setAttribute('data-full-text', text);
+                
                 // Check if a match was found
                 if (percentageMatch) {
                     // Get the matched percentage value as a number
@@ -228,6 +262,7 @@ if (storedKey) {
             .catch(error => {
                 console.error('Error fetching text:', error);
             });
+        
 
             var trashButton = document.createElement('button');
             trashButton.textContent = '🗑️'; // Papierkorb-Symbol als Textinhalt
