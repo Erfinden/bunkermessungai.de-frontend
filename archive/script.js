@@ -149,6 +149,9 @@ function deleteItem(key, name) {
 if (storedKey) {
     // Trigger API call with stored key and selected value
     var selectedValue = localStorage.getItem('selectedDropdownValue');
+    if (!selectedValue){
+        selectedValue = "Letzte_Woche"
+    }
     if (selectedValue) {
     fetch('http://128.140.90.80:5000/archive', {
         method: 'POST',
