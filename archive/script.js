@@ -129,6 +129,23 @@ document.addEventListener('DOMContentLoaded', function () {
 var storedKey = localStorage.getItem('key');
 
 
+function deleteItem(key, name) {
+    if (confirm('Are you sure?')) {
+        fetch(`http://128.140.90.80:5000/remove_picture/${key}/${name}`, {
+            method: 'POST'
+        })
+        .then(response => {
+            console.log('Item deleted:', response);
+            window.location.reload();
+        })
+        .catch(error => {
+            console.error('Error deleting item:', error);
+            window.location.reload();
+        });
+    }
+}
+
+
 if (storedKey) {
     // Trigger API call with stored key and selected value
     var selectedValue = localStorage.getItem('selectedDropdownValue');
@@ -162,8 +179,21 @@ if (storedKey) {
             var topTextDiv = document.createElement('div');
             topTextDiv.classList.add('nameimg');
             var topText = document.createElement('p');
-            topText.textContent = name;
+            
+            // Extract individual components from the server time
+            var [year, month, day, hour, minute, second] = name.split('-').map(Number);
+            
+            var date = new Date(year, month - 1, day, hour, minute, second);
+            date.setTime(date.getTime() + 7200000);
+            
+            var options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Berlin', hour12: false };
+            var formatter = new Intl.DateTimeFormat('de-DE', options);
+            
+            topText.textContent = formatter.format(date).replace(' ', ' ');
+            
             topTextDiv.appendChild(topText);
+            
+            
 
             // Create the image element
             var image = document.createElement('img');
@@ -174,15 +204,35 @@ if (storedKey) {
             bottomTextDiv.classList.add('itemtext');
             var bottomText = document.createElement('p');
 
-            // Fetch the text content for each name
             fetch('http://128.140.90.80:5000/text_file/' + storedKey + '/' + name + '.txt')
             .then(response => response.text())
             .then(text => {
-                bottomText.textContent = text;
+                // Use a regular expression to find the percentage value in the text
+                const percentageMatch = text.match(/Percentage: (\d+(\.\d+)?)%/);
+                
+                // Check if a match was found
+                if (percentageMatch) {
+                    // Get the matched percentage value as a number
+                    let percentage = parseFloat(percentageMatch[1]);
+                    
+                    // Round the percentage to the nearest integer
+                    percentage = Math.round(percentage);
+                    
+                    // Set the rounded percentage as the text content
+                    bottomText.textContent = percentage + '%';
+                } else {
+                    // Handle the case where the percentage could not be found
+                    console.error('Could not find percentage in text');
+                }
             })
             .catch(error => {
                 console.error('Error fetching text:', error);
             });
+
+            var trashButton = document.createElement('button');
+            trashButton.textContent = '🗑️'; // Papierkorb-Symbol als Textinhalt
+            trashButton.addEventListener('click', () => deleteItem(storedKey, name)); // Fügen Sie einen Event-Listener hinzu, um die deleteItem-Funktion aufzurufen
+            itemDiv.appendChild(trashButton); // Fügen Sie den Papierkorb-Button dem Artikel hinzu
 
             // Append the elements to the item div
             bottomTextDiv.appendChild(bottomText);

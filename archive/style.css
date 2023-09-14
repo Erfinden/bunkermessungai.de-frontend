@@ -66,7 +66,7 @@ body, html {
     color: black;
     z-index: 1;
     position: absolute;
-    top: 45px;
+    top: 50px;
     left: 5px;
     border: 3px solid black;
     border-radius: 5px;
@@ -139,8 +139,9 @@ body, html {
     align-items: center;
     display: flex;
     text-align: center;
-    font-size: 18px;
+    font-size: 20px;
     height: 100%;
+    padding-inline: 5px;
     margin: 0px;
     color: white;
 }
@@ -150,9 +151,8 @@ body, html {
     border-radius: 20px;
     padding: 5px;
     position:absolute;
-    bottom: 0px;
-    width: 50%;
-    height: 45%;
+    left: 5px;
+    bottom: 5px;
     display: flex;
     justify-content: center;
     align-items: end;
@@ -175,13 +175,18 @@ body, html {
   .dropdown-toggle {
     cursor: pointer;
     padding: 8px 12px;
-    border: 3px solid black;
+    border: 3px solid rgba(0, 0, 0, 0.35);
     border-radius: 5px;
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.35);
+    transition: ease-in-out 0.2s;
   }
   
   .dropdown-toggle:hover{
-    background-color: rgb(200, 200, 200);
+    border: 3px solid black;
+  }
+
+  .dropdown-toggle:hover{
+    background-color: white;
   }
 
   .dropdown-menu {
@@ -203,4 +208,27 @@ body, html {
   
   .dropdown-item:hover {
     background-color: #454545;
+  }
+
+
+
+  .item>button{
+    color: white;
+    background:rgba(0, 0, 0, 0.4);
+    border: none;
+    position: absolute;
+    font-size: 17px;
+    right: 5px;
+    top: 5px;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: grid;
+    place-content: center;
+    transition: ease-in-out 0.2s;
+  }
+
+  .item>button:hover{
+    cursor: pointer;
+    background: rgba(0, 0, 0, 0.55);
   }
