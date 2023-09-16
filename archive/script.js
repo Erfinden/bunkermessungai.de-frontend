@@ -90,7 +90,7 @@ localStorage.setItem('selectedDropdownValue', selectedValue);
 var storedKey = localStorage.getItem('key');
 
 // Fetch the API with the selected value and key
-fetch('https://128.140.90.80:5000/archive', {
+fetch('https://bunkermessungai.de:5000/archive', {
     method: 'POST',
     headers: {
     'Content-Type': 'application/json'
@@ -131,7 +131,7 @@ var storedKey = localStorage.getItem('key');
 
 function deleteItem(key, name) {
     if (confirm('Are you sure?')) {
-        fetch(`https://128.140.90.80:5000/remove_picture/${key}/${name}`, {
+        fetch(`https://bunkermessungai.de:5000/remove_picture/${key}/${name}`, {
             method: 'POST'
         })
         .then(response => {
@@ -150,7 +150,7 @@ if (storedKey) {
     // Trigger API call with stored key and selected value
     var selectedValue = localStorage.getItem('selectedDropdownValue');
     if (selectedValue) {
-    fetch('https://128.140.90.80:5000/archive', {
+    fetch('https://bunkermessungai.de:5000/archive', {
         method: 'POST',
         headers: {
         'Content-Type': 'application/json'
@@ -197,14 +197,14 @@ if (storedKey) {
 
             // Create the image element
             var image = document.createElement('img');
-            image.src = 'https://128.140.90.80:5000/image/'  + storedKey + '/' + name + '.jpg';
+            image.src = 'https://bunkermessungai.de:5000/image/'  + storedKey + '/' + name + '.jpg';
 
             // Create the bottom text element
             var bottomTextDiv = document.createElement('div');
             bottomTextDiv.classList.add('itemtext');
             var bottomText = document.createElement('p');
 
-            fetch('https://128.140.90.80:5000/text_file/' + storedKey + '/' + name + '.txt')
+            fetch('https://bunkermessungai.de:5000/text_file/' + storedKey + '/' + name + '.txt')
             .then(response => response.text())
             .then(text => {
                 // Use a regular expression to find the percentage value in the text
