@@ -90,7 +90,7 @@ localStorage.setItem('selectedDropdownValue', selectedValue);
 var storedKey = localStorage.getItem('key');
 
 // Fetch the API with the selected value and key
-fetch('http://server:5000/archive', {
+fetch('https://yourserver:5000/archive', {
     method: 'POST',
     headers: {
     'Content-Type': 'application/json'
@@ -130,8 +130,8 @@ var storedKey = localStorage.getItem('key');
 
 
 function deleteItem(key, name) {
-    if (confirm('Willst du dieses Bild wirklich löschen?')) {
-        fetch(`http://128.140.90.80:5000/remove_picture/${key}/${name}`, {
+    if (confirm('Willst du dieses Bild wirklich lÃ¶schen?')) {
+        fetch(`https://yourserver:5000/remove_picture/${key}/${name}`, {
             method: 'POST'
         })
         .then(response => {
@@ -153,7 +153,7 @@ if (storedKey) {
         selectedValue = "Letzte_Woche"
     }
     if (selectedValue) {
-    fetch('http://128.140.90.80:5000/archive', {
+    fetch('https://yourserver:5000/archive', {
         method: 'POST',
         headers: {
         'Content-Type': 'application/json'
@@ -231,14 +231,14 @@ if (storedKey) {
 
             // Create the image element
             var image = document.createElement('img');
-            image.src = 'http://128.140.90.80:5000/image/'  + storedKey + '/' + name + '.jpg';
+            image.src = 'https://yourserver:5000/image/'  + storedKey + '/' + name + '.jpg';
 
             // Create the bottom text element
             var bottomTextDiv = document.createElement('div');
             bottomTextDiv.classList.add('itemtext');
             var bottomText = document.createElement('p');
 
-            fetch('http://128.140.90.80:5000/text_file/' + storedKey + '/' + name + '.txt')
+            fetch('https://yourserver:5000/text_file/' + storedKey + '/' + name + '.txt')
             .then(response => response.text())
             .then(text => {
                 // Use a regular expression to find the percentage value in the text
@@ -268,9 +268,9 @@ if (storedKey) {
         
 
             var trashButton = document.createElement('button');
-            trashButton.textContent = '🗑️'; // Papierkorb-Symbol als Textinhalt
-            trashButton.addEventListener('click', () => deleteItem(storedKey, name)); // Fügen Sie einen Event-Listener hinzu, um die deleteItem-Funktion aufzurufen
-            itemDiv.appendChild(trashButton); // Fügen Sie den Papierkorb-Button dem Artikel hinzu
+            trashButton.textContent = 'ðŸ—‘ï¸'; // Papierkorb-Symbol als Textinhalt
+            trashButton.addEventListener('click', () => deleteItem(storedKey, name)); // FÃ¼gen Sie einen Event-Listener hinzu, um die deleteItem-Funktion aufzurufen
+            itemDiv.appendChild(trashButton); // FÃ¼gen Sie den Papierkorb-Button dem Artikel hinzu
 
             // Append the elements to the item div
             bottomTextDiv.appendChild(bottomText);
