@@ -49,7 +49,7 @@ var sendpercentupper = 50;
 var sendpercentlower = 50;
 
 function showData(key) {
-    fetch('http://128.140.90.80:5000/user_read', {
+    fetch('https://bunkermessungai.de:5000/user_read', {
         method: 'POST',
         body: new URLSearchParams({ key })
     })
@@ -312,7 +312,7 @@ function updatelowervalue() {
         // Compare lowervalue with sendpercentlower before sending the fetch request
         if (lowervalue == sendpercentlower) {
         } else {
-            fetch('http://128.140.90.80:5000/update_lowervalue', {
+            fetch('https://bunkermessungai.de:5000/update_lowervalue', {
                 method: 'POST',
                 body: new URLSearchParams({ key, lowervalue })
             });
@@ -331,7 +331,7 @@ function updateuppervalue() {
         // Compare uppervalue with sendpercentupper before sending the fetch request
         if (uppervalue == sendpercentupper) {
         } else {
-            fetch('http://128.140.90.80:5000/update_uppervalue', {
+            fetch('https://bunkermessungai.de:5000/update_uppervalue', {
                 method: 'POST',
                 body: new URLSearchParams({ key, uppervalue })
             });
@@ -348,7 +348,7 @@ function updateEmail() {
     var email = document.getElementById('email').value;
     var validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
     if (email.match(validRegex)) {
-        fetch('http://128.140.90.80:5000/update_email', {
+        fetch('https://bunkermessungai.de:5000/update_email', {
             method: 'POST',
             body: new URLSearchParams({ key, email })
         })
@@ -364,7 +364,7 @@ function updateName() {
     var key = document.getElementById('key').value;
     var name = document.getElementById('name').value;
     if(name){
-        fetch('http://128.140.90.80:5000/update_name', {
+        fetch('https://bunkermessungai.de:5000/update_name', {
             method: 'POST',
             body: new URLSearchParams({ key, name })
         })
@@ -380,7 +380,7 @@ function deleteAccount() {
         if (result2) {
             var key = document.getElementById('key').value;
 
-            fetch('http://128.140.90.80:5000/remove', {
+            fetch('https://bunkermessungai.de:5000/remove', {
                 method: 'POST',
                 body: new URLSearchParams({ key })
             })
