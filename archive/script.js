@@ -90,7 +90,6 @@ localStorage.setItem('selectedDropdownValue', selectedValue);
 var storedKey = localStorage.getItem('key');
 
 // Fetch the API with the selected value and key
-
 fetch('https://bunkermessungai.de:5000/archive', {
     method: 'POST',
     headers: {
@@ -131,9 +130,8 @@ var storedKey = localStorage.getItem('key');
 
 
 function deleteItem(key, name) {
-
-    if (confirm('Willst du dieses Bild wirklich lÃ¶schen?')) {
-        fetch(`https://yourserver:5000/remove_picture/${key}/${name}`, {
+    if (confirm('Willst du dieses Bild wirklich löschen?')) {
+        fetch(`https://bunkermessungai.de:5000/remove_picture/${key}/${name}`, {
             method: 'POST'
         })
         .then(response => {
@@ -155,7 +153,6 @@ if (storedKey) {
         selectedValue = "Letzte_Woche"
     }
     if (selectedValue) {
-
     fetch('https://bunkermessungai.de:5000/archive', {
         method: 'POST',
         headers: {
@@ -234,7 +231,6 @@ if (storedKey) {
 
             // Create the image element
             var image = document.createElement('img');
-          
             image.src = 'https://bunkermessungai.de:5000/image/'  + storedKey + '/' + name + '.jpg';
 
             // Create the bottom text element
@@ -243,7 +239,6 @@ if (storedKey) {
             var bottomText = document.createElement('p');
 
             fetch('https://bunkermessungai.de:5000/text_file/' + storedKey + '/' + name + '.txt')
-          
             .then(response => response.text())
             .then(text => {
                 // Use a regular expression to find the percentage value in the text
@@ -273,9 +268,9 @@ if (storedKey) {
         
 
             var trashButton = document.createElement('button');
-            trashButton.textContent = 'ðŸ—‘ï¸'; // Papierkorb-Symbol als Textinhalt
-            trashButton.addEventListener('click', () => deleteItem(storedKey, name)); // FÃ¼gen Sie einen Event-Listener hinzu, um die deleteItem-Funktion aufzurufen
-            itemDiv.appendChild(trashButton); // FÃ¼gen Sie den Papierkorb-Button dem Artikel hinzu
+            trashButton.textContent = '🗑️'; // Papierkorb-Symbol als Textinhalt
+            trashButton.addEventListener('click', () => deleteItem(storedKey, name)); // Fügen Sie einen Event-Listener hinzu, um die deleteItem-Funktion aufzurufen
+            itemDiv.appendChild(trashButton); // Fügen Sie den Papierkorb-Button dem Artikel hinzu
 
             // Append the elements to the item div
             bottomTextDiv.appendChild(bottomText);
