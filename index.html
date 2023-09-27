@@ -2,95 +2,31 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bunkermessungai</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link rel="stylesheet"href="https://fonts.googleapis.com/css?family=Nunito">
-    
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bunkermessungai Kamera auswahl</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="header" id="header">
-        <div class="status-light" id="status-light" style="display: none;"></div>
-        <a href="http://bunkermessungai.local" class="camlinktop" id="camlinktop" title="hier kommst du auf deine bunkerkamera">📷</a>
-        <h1 class="header-title" id="header-title">Bunkermessungai.de</h1>
-        <i class="fas fa-angle-up" id="angle-down" onclick="openadv()" style="display: none;"></i>
-        <a class="icon" onclick="openquickmenu(this)">
-            <div class="bar1"></div>
-            <div class="bar2"></div>
-            <div class="bar3"></div>   
-        </a>
-        <div class="quickmenu" id="quickmenu"> 
-            <button onClick="window.location.reload();" class="quickmenu-button">
-                <i class="fas fa-sync-alt"></i>
-            </button>
-            <button id="logout-button" class="quickmenu-button">
-                <i class="fas fa-sign-out-alt"></i>
-            </button>
-            <button id="delete-account-button" class="quickmenu-button">
-                <i class="fas fa-trash"></i>
-            </button>
-            <button id="dark-light-mode-button" class="quickmenu-button">
-                <i class="fas fa-adjust"></i>
-            </button>
-        </div>
-    </div>
-    <h1 id="networkerr" style="display: none;">Network error!</h1>
-    <div class="container">
-        <div class="adv" id="adv">
-            <div class="slider-container" id="slider-container" style="display: none;">
-                <div class="slidecontainer">
-                    <P>Low</P>
-                    <input type="range" min="1" max="100" value="50" class="slider" id="lowervalue">
-                    <p><span id="lowervaluepercent"></span>%</p>
-                </div>
-                <div class="slidecontainer">
-                    <P>High</P>
-                    <input type="range" min="1" max="100" value="50" class="slider" id="uppervalue">
-                    <p><span id="uppervaluepercent"></span>%</p>
+    <div class="outer-container">
+        <div class="container">
+            <div class="content">
+            <h1>Ihre Kamera(s)</h1>
+            <div class="items">
+                <div class="placeholder-message">Sie haben keine Kamera, fügen sie mit "+" eine hinzu.</div>
+
+            </div>
+            <button class="add-button">+</button>
+            <div class="key-box">
+                <h2>Kamera key</h2>
+                <div>
+                    <input type="text" placeholder="Hier Kamera Key eingeben" id="secretKeyInput">
+                    <button id="submitButton">✔</button>
                 </div>
             </div>
-            <div class="input-group" id="name-group" style="display: none;">
-                <label for="name">📷</label>
-                <input type="text" id="name" autocomplete="off" class="input-field" placeholder="update camera name here">
-                <div style="min-width: 25px; width: 30px;"></div>
-            </div> 
-            <div class="input-group" id="email-group" style="display: none;">
-                <label for="email">📨</label>
-                <input type="email" id="email" class="input-field" autocomplete="off" placeholder="update email here">
-                <button type="button" id="email-button" class="submit-button" onclick="updatelowervalue();updateuppervalue();updateName();updateEmail();window.location.reload();">
-                    <i class="fas fa-check"></i>
-                </button>
-            </div>
-        </div>
-        <form id="key-form" class="input-group" style="display: none;">
-            <div class="input-group">
-                <label for="key">&#x1F511;</label>
-                <input type="password" id="key" autocomplete="off" class="input-field">
-                <button type="submit" class="submit-button">
-                    <i class="fas fa-check"></i>
-                </button>
-                <button type="button" id="reveal-button" class="reveal-button" onclick="toggleKeyVisibility()">
-                    <i class="fas fa-eye"></i>
-                </button>
-            </div>
-        </form>
-        
-        <div class="content">
-            <div id="content-img">
-                <a href="http://bunkermessungai.local" class="camlink" id="camlink" style="display: none;">📷</a>
-                <div id="image-container"></div>
-                <canvas id="barChart"></canvas>
-                <div class="text-container" id="text-container"></div>
-                <a href="/archive/" class="archive_btn" id="archive_btn" style="display: none;">Show Archive</a>
-            </div>
-        </div>  
-        <div style="display: none;" id="text-file-container"></div>
+            
         </div>
     </div>
 
     <script src="script.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </body>
 </html>
