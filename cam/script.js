@@ -49,31 +49,24 @@ var sendpercentupper = 50;
 var sendpercentlower = 50;
 
 function showData(key) {
-    fetch('https://bunkermessungai.de:5000/user_read', {
+    fetch(`${CONFIG.API_URL}/user_read`, {
         method: 'POST',
         body: new URLSearchParams({ key })
     })
-        .then(response => response.json())
+        .then(response => {
+            if (response.status === 429) {
+                document.getElementById('toomanyrequests').style.display = 'block';
+                console.log("Rate limit exceeded");
+                throw new Error("Rate limit exceeded"); 
+            }
+            return response.json(); 
+        })
         .then(function (data) {
-            if (data.error) {
-                var container = document.querySelector('.container');
-                container.classList.remove('show');
-                container.innerHTML = '';
-                var errorMessage = document.createElement('p');
-                errorMessage.textContent = 'Invalid Key!';
-                errorMessage.style.fontSize = '24px';
-                errorMessage.style.fontWeight = 'bold';
-                errorMessage.style.color = 'red';
-                errorMessage.style.textAlign = 'center';
-                container.appendChild(errorMessage);
-                var tryAgainButton = document.createElement('button');
-                tryAgainButton.textContent = 'Try Again';
-                tryAgainButton.classList.add('try-again-button'); // Add a class to the button
-                tryAgainButton.addEventListener('click', function() {
-                    window.location.reload();
-                });
-                container.appendChild(tryAgainButton);
+            if (data.error === "Invalid key.") {
+                console.log(data.error)
+                document.getElementById('invalidkey').style.display = 'block';
                 logout()
+                setTimeout(() => window.location.reload(), 2500);
                 return;
             }
 
@@ -325,9 +318,11 @@ function showData(key) {
 
         })
         .catch(function(error) {
-            var networkerr = document.getElementById('networkerr');
-            networkerr.style.display = 'flex';
-            console.error('Network error:', error);
+            if (response.status !== 429) {
+                var networkerr = document.getElementById('networkerr');
+                networkerr.style.display = 'block';
+                console.error('Network error:', error);
+            }
         });
 }
 
@@ -338,7 +333,7 @@ function updatelowervalue() {
         // Compare lowervalue with sendpercentlower before sending the fetch request
         if (lowervalue == sendpercentlower) {
         } else {
-            fetch('https://bunkermessungai.de:5000/update_lowervalue', {
+            fetch(`${CONFIG.API_URL}/update_lowervalue`, {
                 method: 'POST',
                 body: new URLSearchParams({ key, lowervalue })
             });
@@ -357,7 +352,7 @@ function updateuppervalue() {
         // Compare uppervalue with sendpercentupper before sending the fetch request
         if (uppervalue == sendpercentupper) {
         } else {
-            fetch('https://bunkermessungai.de:5000/update_uppervalue', {
+            fetch(`${CONFIG.API_URL}/update_uppervalue`, {
                 method: 'POST',
                 body: new URLSearchParams({ key, uppervalue })
             });
@@ -374,7 +369,7 @@ function updateEmail() {
     var email = document.getElementById('email').value;
     var validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
     if (email.match(validRegex)) {
-        fetch('https://bunkermessungai.de:5000/update_email', {
+        fetch(`${CONFIG.API_URL}/update_email`, {
             method: 'POST',
             body: new URLSearchParams({ key, email })
         })
@@ -390,7 +385,7 @@ function updateName() {
     var key = document.getElementById('key').value;
     var name = document.getElementById('name').value;
     if(name){
-        fetch('https://bunkermessungai.de:5000/update_name', {
+        fetch(`${CONFIG.API_URL}/update_name`, {
             method: 'POST',
             body: new URLSearchParams({ key, name })
         })
@@ -406,7 +401,7 @@ function deleteAccount() {
         if (result2) {
             var key = document.getElementById('key').value;
 
-            fetch('https://bunkermessungai.de:5000/remove', {
+            fetch(`${CONFIG.API_URL}/remove`, {
                 method: 'POST',
                 body: new URLSearchParams({ key })
             })
@@ -457,17 +452,27 @@ function toggleKeyVisibility() {
     }
 }
 
+// Initially hide the buttons
+var quickmenuButtons = document.getElementsByClassName("quickmenu-button");
+for (var i = 0; i < quickmenuButtons.length; i++) {
+    quickmenuButtons[i].style.display = "none";
+}
+
 function openquickmenu(x) {
     x.classList.toggle("change");
     var quickmenu = document.getElementById("quickmenu");
     quickmenu.classList.toggle("show");
 
-    // Disable/Enable buttons based on the menu state
-    var quickmenuButtons = quickmenu.getElementsByClassName("quickmenu-button");
+    // Show/Hide buttons based on the menu state
     for (var i = 0; i < quickmenuButtons.length; i++) {
-        quickmenuButtons[i].disabled = !quickmenu.classList.contains("show");
+        if (quickmenu.classList.contains("show")) {
+            quickmenuButtons[i].style.display = "block"; // Show buttons when menu is shown
+        } else {
+            quickmenuButtons[i].style.display = "none"; // Hide buttons when menu is hidden
+        }
     }
 }
+
 
 
 var isOpen = false;

@@ -488,15 +488,19 @@ body.dark-mode {
     border-top-right-radius: 20px;
 }
 
-.try-again-button{
-    border: none;
-    border-radius: 5px;
-    font-family: "Nunito";
-    transition: background-color 0.3s ease-in-out;
-    cursor: pointer;
-    background: grey;
-}
 
-.try-again-button:hover{
-    background-color: red;
+#toomanyrequests{
+    position: fixed;
+    top: 60px;
+    color: red;
+    text-align: center;
+  }
+
+  #invalidkey{
+    color: red;
+    text-align: center;
+  }
+
+  .quickmenu-button[disabled] {
+    cursor: default;
 }

@@ -89,25 +89,6 @@ localStorage.setItem('selectedDropdownValue', selectedValue);
 // Get the stored key from local storage
 var storedKey = localStorage.getItem('key');
 
-// Fetch the API with the selected value and key
-fetch('https://bunkermessungai.de:5000/archive', {
-    method: 'POST',
-    headers: {
-    'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-    key: storedKey,
-    selectedValue: selectedValue
-    })
-})
-    .then(response => {
-    // Handle the API response here (if needed)
-    console.log('API response:', response);
-    })
-    .catch(error => {
-    // Handle any errors that occurred during the API request
-    console.error('Error fetching data from API:', error);
-    });
 }
 
 // Event listener for the dropdown toggle
@@ -131,7 +112,7 @@ var storedKey = localStorage.getItem('key');
 
 function deleteItem(key, name) {
     if (confirm('Willst du dieses Bild wirklich löschen?')) {
-        fetch(`https://bunkermessungai.de:5000/remove_picture/${key}/${name}`, {
+        fetch(`${CONFIG.API_URL}/remove_picture/${key}/${name}`, {
             method: 'POST'
         })
         .then(response => {
@@ -153,7 +134,7 @@ if (storedKey) {
         selectedValue = "Letzte_Woche"
     }
     if (selectedValue) {
-    fetch('https://bunkermessungai.de:5000/archive', {
+    fetch(`${CONFIG.API_URL}/archive`, {
         method: 'POST',
         headers: {
         'Content-Type': 'application/json'
@@ -163,7 +144,14 @@ if (storedKey) {
         selectedValue: selectedValue
         })
     })
-    .then(response => response.json()) // Parse the JSON response
+    .then(response => {
+        if (response.status === 429) {
+            document.getElementById('toomanyrequests').style.display = 'block';
+            console.log("Rate limit exceeded");
+            throw new Error("Rate limit exceeded"); 
+        }
+        return response.json(); 
+    })
     .then(data => {
         // Handle the API response here
         console.log('API response:', data);
@@ -231,14 +219,14 @@ if (storedKey) {
 
             // Create the image element
             var image = document.createElement('img');
-            image.src = 'https://bunkermessungai.de:5000/image/'  + storedKey + '/' + name + '.jpg';
+            image.src = `${CONFIG.API_URL}/image/`  + storedKey + '/' + name + '.jpg';
 
             // Create the bottom text element
             var bottomTextDiv = document.createElement('div');
             bottomTextDiv.classList.add('itemtext');
             var bottomText = document.createElement('p');
 
-            fetch('https://bunkermessungai.de:5000/text_file/' + storedKey + '/' + name + '.txt')
+            fetch(`${CONFIG.API_URL}/text_file/` + storedKey + '/' + name + '.txt')
             .then(response => response.text())
             .then(text => {
                 // Use a regular expression to find the percentage value in the text
