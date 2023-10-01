@@ -207,30 +207,39 @@ function showData(key) {
 
                     // Create a bar chart
 
+                    var barColor, borderColor;
+                    if (roundedPercentage < 35) {
+                        barColor = 'rgba(255, 50, 50, 1)'; // Red
+                    } else {
+                        barColor = 'rgba(0, 128, 0, 1)'; // Green
+                    }
+
                     var chartCanvas = document.getElementById('barChart');
                     chartCanvas.className = 'chart';
-                    chartCanvas.style.maxWidth = '70px';
+                    chartCanvas.style.maxWidth = '50px';
 
                     var chartData = {
                         labels: ['Füllstand'],
                         datasets: [{
                             label: '',
                             data: [roundedPercentage],
-                            backgroundColor: 'rgba(255, 50, 50, 1)',
-                            borderColor: 'rgba(255, 0, 0, 1)',
-                            borderWidth: 0,
+                            backgroundColor: barColor,
+                            borderWidth: 1,
+                            barThickness: 20 
                         }]
                     };
 
                     var chartOptions = {
                         responsive: true,
                         plugins: {
+                            legend: {
+                                display: false
+                            },
                             title: {
                                 display: true,
                                 text: '',
                                 font: {
-                                    size: 10
-                                    
+                                    size: 10                                 
                                 }
                             }
                         },
@@ -242,9 +251,16 @@ function showData(key) {
                                 beginAtZero: true,
                                 max: 100,
                                 ticks: {
-                                    stepSize: 10
+                                    stepSize: 10,
+                                    display: false,
                                 }
                                 
+                            },
+                            x: {
+                                beginAtZero: true,
+                                ticks: {
+                                    color: 'white' 
+                                }
                             }
                         }
                     };
@@ -452,25 +468,11 @@ function toggleKeyVisibility() {
     }
 }
 
-// Initially hide the buttons
-var quickmenuButtons = document.getElementsByClassName("quickmenu-button");
-for (var i = 0; i < quickmenuButtons.length; i++) {
-    quickmenuButtons[i].style.display = "none";
-}
+
 
 function openquickmenu(x) {
     x.classList.toggle("change");
-    var quickmenu = document.getElementById("quickmenu");
-    quickmenu.classList.toggle("show");
-
-    // Show/Hide buttons based on the menu state
-    for (var i = 0; i < quickmenuButtons.length; i++) {
-        if (quickmenu.classList.contains("show")) {
-            quickmenuButtons[i].style.display = "block"; // Show buttons when menu is shown
-        } else {
-            quickmenuButtons[i].style.display = "none"; // Hide buttons when menu is hidden
-        }
-    }
+    document.getElementById("quickmenu").classList.toggle("show");
 }
 
 

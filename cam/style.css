@@ -108,10 +108,6 @@ body {
     text-shadow: 3px 3px 3px #000;
 }
 
-#barChart{
-    z-index: 5;
-}
-
 .bar1, .bar2, .bar3 {
     width: 35px;
     height: 5px;
@@ -146,11 +142,13 @@ body {
     opacity: 0;
     transform: translateX(-100%);
     transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+    pointer-events: none;
 }
 
 .quickmenu.show .quickmenu-button {
     opacity: 1;
     transform: translateX(0);
+    pointer-events: auto;
 }
   
 .header a{
@@ -401,12 +399,6 @@ body {
     text-align: center;
 }
 
-
-.chart {
-    position: absolute;
-    right: 0px;
-}
-
 body.dark-mode {
     background-color: #191919;
     color: #fff;
@@ -436,10 +428,13 @@ body.dark-mode {
 }
 
 #barChart {
-    display: flex !important;
+    display: flex;
     box-sizing: border-box;
-    width: 70px;
     align-items: end;
+    margin-right: 10px;
+    position: absolute;
+    z-index: 5;
+    right: 0px;
 }
 
 #content-img{
