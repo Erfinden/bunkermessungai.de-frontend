@@ -134,6 +134,7 @@ body, html {
   max-width: 1000px;
   height: auto; 
   transition: transform 0.3s;
+  max-height: none;
 }
 
 .item.zoomed-in img {

@@ -184,33 +184,12 @@ function showData(key) {
                     var prediction = text.match(/Prediction: (.+)/)[1];
                     var confidence = parseFloat(text.match(/Confidence: (\d+\.\d+)/)[1]);
 
-                    var textContainer = document.getElementById('text-container');
-                    textContainer.innerHTML = '';
-
-                    // Display the prediction and confidence values
-                    var predictionElement = document.createElement('p');
-                    predictionElement.textContent = 'Prediction: ' + prediction;
-                    textContainer.appendChild(predictionElement);
-
-                    var confidenceElement = document.createElement('p');
-                    confidenceElement.textContent = 'Percentage: ' + percentage + "%";
-                    textContainer.appendChild(confidenceElement);
-
-                    var confidenceElement = document.createElement('p');
-                    confidenceElement.textContent = 'Confidence: ' + confidence;
-                    textContainer.appendChild(confidenceElement);
-
-                    // Display the rounded percentage at the bottom of the page
-                    var percentageElement = document.createElement('p');
-                    //percentageElement.textContent = 'Rounded Percentage: ' + roundedPercentage + '%';
-                    document.body.appendChild(percentageElement);
 
                     // Create a bar chart
-
                     var barColor, borderColor;
                     if (roundedPercentage < 35) {
                         barColor = 'rgba(255, 50, 50, 1)'; // Red
-                    } else {
+                    } else { 
                         barColor = 'rgba(0, 128, 0, 1)'; // Green
                     }
 
@@ -334,10 +313,12 @@ function showData(key) {
 
         })
         .catch(function(error) {
-            if (response.status !== 429) {
+            if (error.message && error.message.includes('NetworkError')) {
                 var networkerr = document.getElementById('networkerr');
                 networkerr.style.display = 'block';
                 console.error('Network error:', error);
+            } else {
+                console.error('Other error:', error);
             }
         });
 }
