@@ -18,8 +18,8 @@ document.querySelector(".login-form").addEventListener("submit", function(e){
     .then(response => response.json()) 
     .then(data => {
         if(data.message === "Login successful!") {
-            document.cookie = `access_token_cookie=${data.access_token}; max-age=${7*24*3600}; samesite=Lax;`;
-        
+            alert("Login successful!");
+            window.location.href = "/.."; 
         }
         else {
             alert("Invalid credentials!");

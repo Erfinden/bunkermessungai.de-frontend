@@ -23,7 +23,8 @@ document.querySelector(".login-form").addEventListener("submit", function(e){
     })
     .then(response => response.json())
     .then(data => {
-        if(data.message === "Signup successful!") {
+        if(data.message === "User registered successfully!") {
+            alert("User registered successfully!");
             window.location.href = "/login"; 
         }
         else {

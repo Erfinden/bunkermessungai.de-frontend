@@ -16,13 +16,13 @@
         <a href="http://bunkermessungai.local" class="camlinktop" id="camlinktop" title="hier kommst du auf deine bunkerkamera">📷</a>
         <h1 class="header-title" id="header-title">Bunkermessungai.de</h1>
         <i class="fas fa-angle-up" id="angle-down" onclick="openadv()" style="display: none;"></i>
-        <a class="icon" onclick="openquickmenu(this)">
+        <a style="display: none;" class="icon" onclick="openquickmenu(this)">
             <div class="bar1"></div>
             <div class="bar2"></div>
             <div class="bar3"></div>   
         </a>
-        <div class="quickmenu" id="quickmenu"> 
-            <button id="logout-button" class="quickmenu-button">
+        <div style="display: none;" class="quickmenu" id="quickmenu"> 
+            <button style="display:none !important" id="logout-button" class="quickmenu-button">
                 <i class="fas fa-sign-out-alt"></i>
             </button>
             <button id="delete-account-button" class="quickmenu-button">
@@ -32,6 +32,7 @@
                 <i class="fas fa-adjust"></i>
             </button>
         </div>
+        <a href="/.." onclick="localStorage.clear();" class="backbutton">&larrhk;</a>
     </div>
     <h1 id="networkerr" style="display: none;">Network error!</h1>
     <h1 id="invalidkey" style="display: none;">Invalid Key!</h1>

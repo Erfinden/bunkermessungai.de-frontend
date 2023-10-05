@@ -176,7 +176,6 @@ body {
     justify-content: center;
     align-items: center;
     margin-top: 20px;
-    margin-left: 100px;
 }
 
 .slider-container{
@@ -498,4 +497,24 @@ body.dark-mode {
 
   .quickmenu-button[disabled] {
     cursor: default;
+}
+
+.backbutton{
+    margin-left: 5px;
+    font-size: 31px;
+    min-width: 35px;
+    width: 35px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: ease-in-out 0.3s;
+    text-decoration: none;
+    color: white;
+    padding-top: 4px;
+}
+
+.backbutton:hover{
+    background: rgba(255, 255, 255, 0.1);
 }

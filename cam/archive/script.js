@@ -113,7 +113,8 @@ var storedKey = localStorage.getItem('key');
 function deleteItem(key, name) {
     if (confirm('Willst du dieses Bild wirklich löschen?')) {
         fetch(`${CONFIG.API_URL}/remove_picture/${key}/${name}`, {
-            method: 'POST'
+            method: 'POST',
+            credentials: 'include'
         })
         .then(response => {
             console.log('Item deleted:', response);
@@ -139,6 +140,7 @@ if (storedKey) {
         headers: {
         'Content-Type': 'application/json'
         },
+        credentials: 'include',
         body: JSON.stringify({
         key: storedKey,
         selectedValue: selectedValue
@@ -226,7 +228,7 @@ if (storedKey) {
             bottomTextDiv.classList.add('itemtext');
             var bottomText = document.createElement('p');
 
-            fetch(`${CONFIG.API_URL}/text_file/` + storedKey + '/' + name + '.txt')
+            fetch(`${CONFIG.API_URL}/text_file/` + storedKey + '/' + name + '.txt', {credentials: 'include'})
             .then(response => response.text())
             .then(text => {
                 // Use a regular expression to find the percentage value in the text

@@ -51,7 +51,8 @@ var sendpercentlower = 50;
 function showData(key) {
     fetch(`${CONFIG.API_URL}/user_read`, {
         method: 'POST',
-        body: new URLSearchParams({ key })
+        body: new URLSearchParams({ key }),
+        credentials: 'include'
     })
         .then(response => {
             if (response.status === 429) {
@@ -169,7 +170,9 @@ function showData(key) {
 
             var textFileContainer = document.getElementById('text-file-container');
             textFileContainer.innerHTML = '';
-            fetch(textFileUrl)
+            fetch(textFileUrl, {
+                credentials: 'include'
+            })
                 .then(response => response.text())
                 .then(function (text) {
                     var textElement = document.createElement('pre');
@@ -186,8 +189,8 @@ function showData(key) {
 
 
                     // Create a bar chart
-                    var barColor, borderColor;
-                    if (roundedPercentage < 35) {
+                    var barColor;
+                    if (roundedPercentage < sendpercentlower) {
                         barColor = 'rgba(255, 50, 50, 1)'; // Red
                     } else { 
                         barColor = 'rgba(0, 128, 0, 1)'; // Green
@@ -296,8 +299,8 @@ function showData(key) {
                 statuslight.style.backgroundColor = "red";
                 statuslight.title ="Offline";
             } else{
-                statuslight.style.backgroundColor = "purple";
-                statuslight.title ="Error";
+                statuslight.style.backgroundColor = "grey";
+                statuslight.title ="Kamera war noch nie Online";
             }
 
             var emailInput = document.getElementById('email');
@@ -332,7 +335,8 @@ function updatelowervalue() {
         } else {
             fetch(`${CONFIG.API_URL}/update_lowervalue`, {
                 method: 'POST',
-                body: new URLSearchParams({ key, lowervalue })
+                body: new URLSearchParams({ key, lowervalue }),
+                credentials: 'include'
             });
             alert("Low Value successfully updated to " + lowervalue + "% !");
         }
@@ -351,7 +355,8 @@ function updateuppervalue() {
         } else {
             fetch(`${CONFIG.API_URL}/update_uppervalue`, {
                 method: 'POST',
-                body: new URLSearchParams({ key, uppervalue })
+                body: new URLSearchParams({ key, uppervalue }),
+                credentials: 'include'
             });
             alert("High Value successfully updated to " + uppervalue + "% !");
         }
@@ -368,7 +373,8 @@ function updateEmail() {
     if (email.match(validRegex)) {
         fetch(`${CONFIG.API_URL}/update_email`, {
             method: 'POST',
-            body: new URLSearchParams({ key, email })
+            body: new URLSearchParams({ key, email }),
+            credentials: 'include'
         })
             alert("Email successfully updated to \"" + [email]+ "\"!");
     }else if (!email){
@@ -400,7 +406,8 @@ function deleteAccount() {
 
             fetch(`${CONFIG.API_URL}/remove`, {
                 method: 'POST',
-                body: new URLSearchParams({ key })
+                body: new URLSearchParams({ key }),
+                credentials: 'include'
             })
                 .then(response => response.text())
                 .then(function (result) {
@@ -415,6 +422,8 @@ function deleteAccount() {
         }
     }
 }
+
+
 function toggleDarkLightMode() {
     const body = document.body;
     body.classList.toggle('dark-mode');
@@ -449,6 +458,13 @@ function toggleKeyVisibility() {
     }
 }
 
+
+document.addEventListener('DOMContentLoaded', function () {
+    const isDarkMode = localStorage.getItem('darkMode') !== 'false'; // Defaults to true
+    if (isDarkMode) {
+        document.body.classList.add('dark-mode');
+    }
+});
 
 
 function openquickmenu(x) {

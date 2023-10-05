@@ -47,7 +47,11 @@ function updateKeys() {
     })
     .then(response => {
         if (!response.ok) {
-            throw new Error('Network response was not ok: ' + response.statusText);
+            if(response.status === 429) {
+                throw new Error('Too many requests. Please try again in a minute.');
+            } else {
+                throw new Error('Network response was not ok: ' + response.statusText);
+            }
         }
         return response.json();
     })
@@ -55,16 +59,34 @@ function updateKeys() {
         // Get the items container and placeholder message elements
         let itemsContainer = document.querySelector(".items");
         let placeholderMessage = itemsContainer.querySelector(".placeholder-message");
+        let titlePlural = document.getElementById("title-plural");
 
         // Remove all existing items
         let existingItems = itemsContainer.querySelectorAll(".item");
         existingItems.forEach(item => item.remove());
 
         // Add new items
-        data.keys.forEach(key => {
+        data.keys.forEach(keyData => {
             let newItem = document.createElement("div");
             newItem.className = "item";
-            newItem.textContent = key;
+            newItem.textContent = keyData.name ? keyData.name : `key: ${keyData.key}`;
+        
+            // Make the item clickable and navigate to /cam when clicked
+            newItem.onclick = function() {
+                localStorage.setItem('key', keyData.key);
+                window.location.href = '/cam';
+            };
+        
+            // Add unlink button
+            let unlinkButton = document.createElement("button");
+            unlinkButton.className = "unlink-button";
+            unlinkButton.innerHTML = "&#10006;"; // "x" symbol
+            unlinkButton.onclick = function(e) {
+                e.stopPropagation(); // Prevent triggering newItem.onclick
+                unlinkKey(keyData.key);
+            }
+            newItem.appendChild(unlinkButton);
+            
             itemsContainer.appendChild(newItem);
         });
 
@@ -74,10 +96,16 @@ function updateKeys() {
         } else {
             placeholderMessage.style.display = "none";
         }
+        // Toggle the titlePlural visibility
+        if (data.keys.length >= 2) {
+            titlePlural.style.visibility = "visible";
+        } else {
+            titlePlural.style.visibility = "hidden";
+        }
     })
     .catch(error => {
         console.error('Error:', error);
-        alert("There was an error fetching the keys. Please try again.");
+        alert(error.message);
     });
 }
 
@@ -98,18 +126,44 @@ submitButton.onclick = function() {
     })
     .then(response => response.json())
     .then(data => {
+        updateKeys();
         alert(data.message);
     })
     .catch(error => {
         console.error('Error:', error);
         alert("There was an error linking the key. Please try again.");
     });
-    updateKeys();
     // Close the key box and clear the input field
     keyBox.style.opacity = 0;
     keyBox.style.transform = "scale(0) translateY(50%)";
     secretKeyInput.value = "";
 }
+
+function unlinkKey(key) {
+    if (confirm(`Kamera mit key: "${key}" wirklich von dem Account entfernen?`)){
+        // Send a request to unlink the key
+        fetch('http://127.0.0.1:5000/unlink_key', {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                key: key
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert(data.message);
+            updateKeys();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert("There was an error unlinking the key. Please try again.");
+        });
+    }
+}
+
 
 document.addEventListener('DOMContentLoaded', (event) => {
     updateKeys();
