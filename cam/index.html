@@ -7,7 +7,10 @@
     <link rel="stylesheet" type="text/css" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet"href="https://fonts.googleapis.com/css?family=Nunito">
-    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="../../../config.js"></script>
+    <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
 </head>
 <body>
@@ -85,13 +88,14 @@
                 <p class="datetop" id="datetop" style="display: none;"></p>
                 <a href="/cam/archive/" class="archive_btn" id="archive_btn" style="display: none;">Show Archive</a>
             </div>
+            <div class="diagramm">
+                <div id="diagramm"></div>
+            </div>
         </div>  
         <div style="display: none;" id="text-file-container"></div>
+
+        </div>
         </div>
     </div>
-    
-    <script src="../../../config.js"></script>
-    <script src="script.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </body>
 </html>

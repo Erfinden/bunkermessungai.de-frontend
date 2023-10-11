@@ -1,3 +1,4 @@
+
 document.addEventListener('DOMContentLoaded', function () {
     var storedKey = localStorage.getItem('key');
 
@@ -8,23 +9,23 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
-document.querySelector('#key-form').addEventListener('submit', function (event) {
-    event.preventDefault();
-    var key = document.getElementById('key').value;
-    localStorage.setItem('key', key);
-    showData(key);
-});
+//document.querySelector('#key-form').addEventListener('submit', function (event) {
+//    event.preventDefault();
+//    var key = document.getElementById('key').value;
+//    localStorage.setItem('key', key);
+//    showData(key);
+//});
 
-document.getElementById('logout-button').addEventListener('click', function () {
-    logout();
-    showLoginForm();
-    window.location.reload()
-});
+//document.getElementById('logout-button').addEventListener('click', function () {
+//    logout();
+//    showLoginForm();
+//    window.location.reload()
+//});
 
 
-document.getElementById('delete-account-button').addEventListener('click', function () {
-    deleteAccount();
-});
+//document.getElementById('delete-account-button').addEventListener('click', function () {
+//    deleteAccount();
+//});
 
 
 function showLoginForm() {
@@ -106,7 +107,9 @@ function showData(key) {
 
 
             var emailInput = document.getElementById('email');
-            emailInput.placeholder = email;
+            if (email != null){
+                emailInput.placeholder = email;
+            }
 
             var sliderupper = document.getElementById("uppervalue");
             var outputupper = document.getElementById("uppervaluepercent");
@@ -151,8 +154,10 @@ function showData(key) {
             };
 
             var nameInput = document.getElementById('name');
-            nameInput.placeholder = name;
-
+            if (name != null){
+                nameInput.placeholder = name;
+            }
+                
             var titlename = document.getElementById("header-title")
             if(name){
                 titlename.innerHTML = name
@@ -442,7 +447,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 // Event listener for the Dark/Light Mode button click
-document.getElementById('dark-light-mode-button').addEventListener('click', toggleDarkLightMode);
+//document.getElementById('dark-light-mode-button').addEventListener('click', toggleDarkLightMode);
 
 var keyInput = document.getElementById('key');
 
@@ -499,3 +504,23 @@ function openadv() {
     angleDownIcon.style.transform = `rotate(${rotationDegree}deg)`;
 }
 
+function adjustPlotlyChart() {
+    var plotlyChart = document.querySelector('#diagramm .plotly-graph-div');
+    if (plotlyChart) {
+        plotlyChart.style.width = '100%';
+    }
+}
+
+$.ajax({
+    type: "POST",
+    url: "http://127.0.0.1:5000/get_diagram",
+    data: {"selected_value": "max"},
+    dataType: "json",
+    success: function(data) {
+        $("#diagramm").html(data.graph);
+        adjustPlotlyChart();  // Adjust the chart width
+    },
+    error: function() {
+        alert("Failed to update the graph.");
+    }
+});

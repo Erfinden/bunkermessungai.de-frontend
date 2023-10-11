@@ -103,14 +103,14 @@ body, html {
     display: flex;
     position: relative;
     aspect-ratio: 16 / 9;
-    width: 400px;
-    max-height: 231px;
+    width: 100%;
     gap: 30px;
     border: 3px solid rgba(0, 0, 0, 0.35);
     border-radius: 20px;
     justify-content: center;
     overflow: hidden;
 }
+@media screen and (min-width: 490px)   {  .item  { width: 400px;  max-height:  231px;} }
 
 .zoomed-in-background {
   z-index: 999;   

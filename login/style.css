@@ -6,7 +6,7 @@ body {
     align-items: center;
     height: 100vh;
     background-color: #191919;
-    font-family: "Helvetica Neue", sans-serif;
+    font-family: "Nunito";
   }
   
   .login-container {
@@ -22,7 +22,7 @@ body {
   }
   
   .login-text {
-    font-family: "Helvetica Neue", sans-serif;
+    font-family: "Nunito";
     font-size: 30px;
     color: #fff;
     margin-bottom: 20px;

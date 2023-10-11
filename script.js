@@ -88,6 +88,23 @@ function updateKeys() {
             newItem.appendChild(unlinkButton);
             
             itemsContainer.appendChild(newItem);
+
+            let statuslight = document.createElement("div");
+            statuslight.className = "statuslight";
+            newItem.appendChild(statuslight)
+            itemsContainer.appendChild(newItem)
+            if (keyData.status == null){
+                statuslight.style.backgroundColor = "grey";
+                statuslight.title ="Kamera war noch nie Online";
+            }
+            else if (keyData.status == 1){
+                statuslight.style.backgroundColor = "rgba(26, 255, 0)";
+                statuslight.title ="Online";
+            }
+            else if (keyData.status == 0){
+                statuslight.style.backgroundColor = "red";
+                statuslight.title ="Offline";
+            }
         });
 
         // Toggle the placeholder message
