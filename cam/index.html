@@ -7,13 +7,23 @@
     <link rel="stylesheet" type="text/css" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet"href="https://fonts.googleapis.com/css?family=Nunito">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"/>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="../../../config.js"></script>
-    <script src="script.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
 </head>
 <body>
+    <div class="gradiant_bottom"></div>
+    <div class="account_profile" onclick="show_logout_button()">
+        <div class="account_profile_upper">
+            <p id="account_name" >[account_name]</p>
+            <span class="material-symbols-outlined">
+                account_circle
+            </span>
+        </div>
+        <button id="logout_button" class="logout_button" onclick="logout()">logout</button>
+    </div>
     <div class="header" id="header">
         <div class="status-light" id="status-light" style="display: none;"></div>
         <a href="http://bunkermessungai.local" class="camlinktop" id="camlinktop" title="hier kommst du auf deine bunkerkamera">📷</a>
@@ -88,8 +98,8 @@
                 <p class="datetop" id="datetop" style="display: none;"></p>
                 <a href="/cam/archive/" class="archive_btn" id="archive_btn" style="display: none;">Show Archive</a>
             </div>
-            <div class="diagramm">
-                <div id="diagramm"></div>
+            <div class="diagram" style="display: none;">
+                <div id="diagram"></div>
             </div>
         </div>  
         <div style="display: none;" id="text-file-container"></div>
@@ -97,5 +107,6 @@
         </div>
         </div>
     </div>
+    <script src="script.js"></script>
 </body>
 </html>

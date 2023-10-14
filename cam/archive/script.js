@@ -152,11 +152,18 @@ if (storedKey) {
             console.log("Rate limit exceeded");
             throw new Error("Rate limit exceeded"); 
         }
+        if(response.status === 401){
+            window.location.href = "/login"; 
+        }
         return response.json(); 
     })
     .then(data => {
         // Handle the API response here
         console.log('API response:', data);
+
+        if(data.username){
+            document.querySelector("#account_name").innerHTML = data.username;
+        }
 
         // Check if the API response contains names
         if (data.names && data.names.length > 0) {
@@ -282,3 +289,32 @@ if (storedKey) {
     showLoginForm();
 }
 });
+
+
+function logout(){
+    localStorage.removeItem('key');
+    fetch('http://127.0.0.1:5000/logout', {
+        method: 'POST',
+        credentials: 'include',
+    })
+    .then(response => {
+        if (!response.ok) {
+            alert("Error Logging out!")
+        }
+        else{
+            window.location.href = "/login";
+        }
+    })
+}
+
+logout_button = document.getElementById("logout_button");
+logout_button.style="display:none";
+
+function show_logout_botton(){
+    if (logout_button.style.display === "none") {
+        	logout_button.style="display:block";
+    }
+    else{
+        logout_button.style="display:none";
+    }
+}

@@ -42,10 +42,6 @@ function showLoginForm() {
     document.getElementById('delete-account-button').style.display = 'none';
 }
 
-function logout() {
-    localStorage.removeItem('key');
-}
-
 var sendpercentupper = 50;
 var sendpercentlower = 50;
 
@@ -60,6 +56,9 @@ function showData(key) {
                 document.getElementById('toomanyrequests').style.display = 'block';
                 console.log("Rate limit exceeded");
                 throw new Error("Rate limit exceeded"); 
+            }
+            if(response.status === 401){
+                window.location.href = "/login"; 
             }
             return response.json(); 
         })
@@ -76,9 +75,14 @@ function showData(key) {
             var textFileUrl = data.text_file_url;
             var email = data.email;
             var name =  data.name;
+            var username = data.username;
             var status = data.status;
             sendpercentlower = data.sendpercentlower;
             sendpercentupper = data.sendpercentupper;
+
+            if(username){
+                document.querySelector("#account_name").innerHTML = username;
+            }
 
             var datetop = document.getElementById('datetop');
             datetop.style.display = 'block';
@@ -318,7 +322,22 @@ function showData(key) {
             keyInput.readOnly = true;
 
             document.querySelector('#email-group .submit-button').style.display = 'block';
-
+            $.ajax({
+                type: "POST",
+                url: "http://127.0.0.1:5000/get_diagram",
+                data: {"selected_value": "max"},
+                dataType: "json",
+                success: function(data) {
+                    $("#diagram").html(data.graph);
+                    adjustPlotlyChart();  // Adjust the chart width
+                    var diagram = document.querySelector(".diagram");
+                    diagram.style.display = "block";
+                },
+                error: function() {
+                    alert("Failed to update the graph.");
+                }
+            });
+            
         })
         .catch(function(error) {
             if (error.message && error.message.includes('NetworkError')) {
@@ -329,6 +348,9 @@ function showData(key) {
                 console.error('Other error:', error);
             }
         });
+
+        
+
 }
 
 function updatelowervalue() {
@@ -511,16 +533,31 @@ function adjustPlotlyChart() {
     }
 }
 
-$.ajax({
-    type: "POST",
-    url: "http://127.0.0.1:5000/get_diagram",
-    data: {"selected_value": "max"},
-    dataType: "json",
-    success: function(data) {
-        $("#diagramm").html(data.graph);
-        adjustPlotlyChart();  // Adjust the chart width
-    },
-    error: function() {
-        alert("Failed to update the graph.");
+
+function logout(){
+    localStorage.removeItem('key');
+    fetch('http://127.0.0.1:5000/logout', {
+        method: 'POST',
+        credentials: 'include',
+    })
+    .then(response => {
+        if (!response.ok) {
+            alert("Error Logging out!")
+        }
+        else{
+            window.location.href = "/login";
+        }
+    })
+}
+
+logout_button = document.getElementById("logout_button");
+logout_button.style="display:none";
+
+function show_logout_button(){
+    if (logout_button.style.display === "none") {
+        	logout_button.style="display:block";
     }
-});
+    else{
+        logout_button.style="display:none";
+    }
+}

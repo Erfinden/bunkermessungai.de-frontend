@@ -1,3 +1,9 @@
+@media screen and (max-width: 750px) {
+    .account_profile{
+        top: 5px !important;
+        right: 10px !important;
+    }
+}
 body {
     font-family: "Nunito";
     margin: 0;
@@ -173,3 +179,30 @@ h1 {
     background-color: #0066cc;
 }
 
+.account_profile{
+    position: fixed;
+    flex-direction: column;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: #333;
+    padding: 2px 5px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+
+#account_name{
+    margin:0;
+}
+
+.account_profile_upper{
+    display: flex;
+    gap: 10px;
+}
+
+#logout_button{
+    cursor:pointer;
+}

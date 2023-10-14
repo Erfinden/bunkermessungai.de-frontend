@@ -9,6 +9,15 @@
     <link rel="stylesheet"href="https://fonts.googleapis.com/css?family=Nunito">
 </head>
 <body>
+    <div class="account_profile" onclick="show_logout_botton()">
+        <div class="account_profile_upper">
+            <p id="account_name" >[account_name]</p>
+            <span class="material-symbols-outlined">
+                account_circle
+            </span>
+        </div>
+        <button id="logout_button" onclick="logout()">logout</button>
+    </div>
     <div class="dropdown">
         <div class="dropdown-toggle" id="dropdownToggle">Letzte Woche</div>
         <div class="dropdown-menu" id="dropdownMenu" onclick="window.location.reload()">

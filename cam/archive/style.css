@@ -275,3 +275,32 @@ body, html {
   color: red;
   text-align: center;
 }
+
+.account_profile{
+  position: fixed;
+  flex-direction: column;
+  top: 3px;
+  right: 3px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: #333;
+  padding: 2px 5px;
+  border-radius: 10px;
+  cursor: pointer;
+  z-index: 10000;
+}
+
+
+#account_name{
+  margin:0;
+}
+
+.account_profile_upper{
+  display: flex;
+  gap: 10px;
+}
+
+#logout_button{
+  cursor:pointer;
+}

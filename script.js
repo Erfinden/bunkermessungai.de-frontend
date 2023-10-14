@@ -15,6 +15,34 @@ btn.onclick = function(event) {
     }
 }
 
+function logout(){
+    localStorage.removeItem('key');
+    fetch('http://127.0.0.1:5000/logout', {
+        method: 'POST',
+        credentials: 'include',
+    })
+    .then(response => {
+        if (!response.ok) {
+            alert("Error Logging out!")
+        }
+        else{
+            window.location.href = "/login";
+        }
+    })
+}
+
+logout_button = document.getElementById("logout_button");
+logout_button.style="display:none";
+
+function show_logout_botton(){
+    if (logout_button.style.display === "none") {
+        	logout_button.style="display:block";
+    }
+    else{
+        logout_button.style="display:none";
+    }
+}
+
 document.onclick = function(event) {
     if (event.target !== keyBox && event.target !== btn) {
         keyBox.style.opacity = 0;
@@ -49,7 +77,11 @@ function updateKeys() {
         if (!response.ok) {
             if(response.status === 429) {
                 throw new Error('Too many requests. Please try again in a minute.');
-            } else {
+            } 
+            if(response.status === 401){
+                window.location.href = "/login"; 
+            }
+            else {
                 throw new Error('Network response was not ok: ' + response.statusText);
             }
         }
@@ -64,6 +96,10 @@ function updateKeys() {
         // Remove all existing items
         let existingItems = itemsContainer.querySelectorAll(".item");
         existingItems.forEach(item => item.remove());
+
+        if(data.name){
+            document.querySelector("#account_name").innerHTML = data.name;
+        }
 
         // Add new items
         data.keys.forEach(keyData => {

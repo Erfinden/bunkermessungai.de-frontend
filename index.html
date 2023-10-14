@@ -6,8 +6,19 @@
     <title>Bunkermessungai Kamera auswahl</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet"href="https://fonts.googleapis.com/css?family=Nunito">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"/>
+
 </head>
 <body>
+    <div class="account_profile" onclick="show_logout_botton()">
+        <div class="account_profile_upper">
+            <p id="account_name" >[account_name]</p>
+            <span class="material-symbols-outlined">
+                account_circle
+            </span>
+        </div>
+        <button id="logout_button" onclick="logout()">logout</button>
+    </div>
     <div class="outer-container">
         <div class="container">
             <div class="content">

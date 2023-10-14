@@ -4,7 +4,7 @@
     }
     .header{
         margin-left: 20px !important;
-        margin-top: 6px !important;
+        margin-top: 50px !important;
         word-break: break-all;  
         text-align: center;
         font-size: small;
@@ -16,6 +16,13 @@
     .input-group{
         width: 100%;
         margin: 0px !important;
+    }
+    .account_profile{
+        top: 5px !important;
+        right: 10px !important;
+    }
+    .gradiant_bottom{
+        display: block !important;
     }
 }
 
@@ -518,9 +525,9 @@ body.dark-mode {
     background: rgba(255, 255, 255, 0.1);
 }
 
-.diagramm {
+.diagram {
     width: 100%;
-    max-width: 1000px;
+    max-width: 100vw;
     border-radius: 20px;
     margin-top: 15px;
     position: relative;
@@ -528,7 +535,47 @@ body.dark-mode {
     overflow: hidden;
 }
 
-#diagramm, #diagramm > * {
+#diagram, #diagram > * {
     width: 100% !important;
     height: 100% !important;
+}
+
+.account_profile{
+    position: fixed;
+    flex-direction: column;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: #333;
+    padding: 2px 5px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+
+#account_name{
+    margin:0;
+}
+
+.account_profile_upper{
+    display: flex;
+    gap: 10px;
+}
+
+#logout_button{
+    cursor:pointer;
+}
+
+.gradiant_bottom{
+    display: none;
+    background: rgb(0,0,0);
+    background: linear-gradient(0deg, rgb(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 70%);
+    width: 100%;
+    height: 10%;
+    position: fixed;
+    bottom: 0px;
+    z-index: 1000;
+    pointer-events: none;
 }
