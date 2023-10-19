@@ -324,9 +324,13 @@ function showData(key) {
             document.querySelector('#email-group .submit-button').style.display = 'block';
             $.ajax({
                 type: "POST",
-                url: "http://127.0.0.1:5000/get_diagram",
-                data: {"selected_value": "max"},
+                url: `${CONFIG.API_URL}/get_diagram`,
+                data: JSON.stringify({"key": key}),  // add your key here
+                contentType: "application/json",
                 dataType: "json",
+                xhrFields: {
+                    withCredentials: true
+                },
                 success: function(data) {
                     $("#diagram").html(data.graph);
                     adjustPlotlyChart();  // Adjust the chart width
@@ -336,7 +340,7 @@ function showData(key) {
                 error: function() {
                     alert("Failed to update the graph.");
                 }
-            });
+            });            
             
         })
         .catch(function(error) {
