@@ -92,8 +92,13 @@
         
         <div class="content">
             <div id="content-img">
+                <video autoplay="" loop="" controls="" id="myVideo" style="max-height: 400px; max-width: 100%;">
+                  <source src="../bunker_zeitraffer.mp4" type="video/mp4">
+                  Your browser does not support the video tag.
+                </video>
+
                 <a href="http://bunkermessungai.local" class="camlink" id="camlink" style="display: none;">📷</a>
-                <div id="image-container"></div>
+                <div style="display:none;" id="image-container"></div>
                 <canvas id="barChart"></canvas>
                 <p class="datetop" id="datetop" style="display: none;"></p>
                 <a href="/cam/archive/" class="archive_btn" id="archive_btn" style="display: none;">Show Archive</a>
@@ -108,5 +113,6 @@
         </div>
     </div>
     <script src="script.js"></script>
+    <script src="../../config.js"></script>
 </body>
 </html>

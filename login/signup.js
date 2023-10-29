@@ -11,7 +11,7 @@ document.querySelector(".login-form").addEventListener("submit", function(e){
         return;
     }
 
-    fetch('http://127.0.0.1:5000/register', {
+    fetch(`${CONFIG.API_URL}/register`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

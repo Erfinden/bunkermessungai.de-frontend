@@ -17,7 +17,7 @@ btn.onclick = function(event) {
 
 function logout(){
     localStorage.removeItem('key');
-    fetch('http://127.0.0.1:5000/logout', {
+    fetch(`${CONFIG.API_URL}/logout`, {
         method: 'POST',
         credentials: 'include',
     })
@@ -69,7 +69,7 @@ var secretKeyInput = document.getElementById("secretKeyInput");
 var submitButton = document.getElementById("submitButton");
 
 function updateKeys() {
-    fetch('http://127.0.0.1:5000/get_keys', {
+    fetch(`${CONFIG.API_URL}/get_keys`, {
         method: 'GET',
         credentials: 'include',
     })
@@ -167,7 +167,7 @@ submitButton.onclick = function() {
     let secretKey = secretKeyInput.value;
     
     // Send the secret key to the server
-    fetch('http://127.0.0.1:5000/link_key', {
+    fetch(`${CONFIG.API_URL}/link_key`, {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -195,7 +195,7 @@ submitButton.onclick = function() {
 function unlinkKey(key) {
     if (confirm(`Kamera mit key: "${key}" wirklich von dem Account entfernen?`)){
         // Send a request to unlink the key
-        fetch('http://127.0.0.1:5000/unlink_key', {
+        fetch(`${CONFIG.API_URL}/unlink_key`, {
             method: 'POST',
             credentials: 'include',
             headers: {

@@ -4,7 +4,7 @@ document.querySelector(".login-form").addEventListener("submit", function(e){
     let username = document.getElementById("username").value;
     let password = document.getElementById("password").value;
 
-    fetch('http://127.0.0.1:5000/login', {
+    fetch(`${CONFIG.API_URL}/login`, {
         method: 'POST',
         credentials: 'include',
         headers: {

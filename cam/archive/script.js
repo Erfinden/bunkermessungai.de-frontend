@@ -293,7 +293,7 @@ if (storedKey) {
 
 function logout(){
     localStorage.removeItem('key');
-    fetch('http://127.0.0.1:5000/logout', {
+    fetch(`${CONFIG.API_URL}/logout`, {
         method: 'POST',
         credentials: 'include',
     })

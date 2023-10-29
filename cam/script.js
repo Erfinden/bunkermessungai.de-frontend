@@ -421,7 +421,8 @@ function updateName() {
     if(name){
         fetch(`${CONFIG.API_URL}/update_name`, {
             method: 'POST',
-            body: new URLSearchParams({ key, name })
+            body: new URLSearchParams({ key, name }),
+            credentials: 'include'
         })
         alert("Camera Name successfully updated to \"" + [name]+ "\"!");
     }
@@ -540,7 +541,7 @@ function adjustPlotlyChart() {
 
 function logout(){
     localStorage.removeItem('key');
-    fetch('http://127.0.0.1:5000/logout', {
+    fetch(`${CONFIG.API_URL}/logout`, {
         method: 'POST',
         credentials: 'include',
     })
