@@ -69,7 +69,9 @@ function showData(key) {
                 var [year, month, day, hour, minute, second] = dateTimeStr.split('-').map(Number);
 
                 var date = new Date(year, month - 1, day, hour, minute, second);
-                date.setTime(date.getTime() + 7200000);
+                
+                // Date is now in UCT, convert to local time zone
+                date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
 
                 var options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Berlin', hour12: false };
                 var formatter = new Intl.DateTimeFormat('de-DE', options);
