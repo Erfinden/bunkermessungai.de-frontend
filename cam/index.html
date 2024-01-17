@@ -8,13 +8,18 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet"href="https://fonts.googleapis.com/css?family=Nunito">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"/>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="../../../config.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 </head>
+
 <body>
+    <div id="loading">
+        <div class="spinner"></div>
+    </div>
+    
     <div class="gradiant_bottom"></div>
+
     <div class="account_profile" onclick="show_logout_button()">
         <div class="account_profile_upper">
             <p id="account_name" >[account_name]</p>
@@ -24,33 +29,21 @@
         </div>
         <button id="logout_button" class="logout_button" onclick="logout()">logout</button>
     </div>
+
     <div class="header" id="header">
-        <div class="status-light" id="status-light" style="display: none;"></div>
+        <div class="status-light" id="status-light"></div>
         <a href="http://bunkermessungai.local" class="camlinktop" id="camlinktop" title="hier kommst du auf deine bunkerkamera">📷</a>
         <h1 class="header-title" id="header-title">Bunkermessungai.de</h1>
-        <i class="fas fa-angle-up" id="angle-down" onclick="openadv()" style="display: none;"></i>
-        <a style="display: none;" class="icon" onclick="openquickmenu(this)">
-            <div class="bar1"></div>
-            <div class="bar2"></div>
-            <div class="bar3"></div>   
-        </a>
-        <div style="display: none;" class="quickmenu" id="quickmenu"> 
-            <button style="display:none !important" id="logout-button" class="quickmenu-button">
-                <i class="fas fa-sign-out-alt"></i>
-            </button>
-            <button id="delete-account-button" class="quickmenu-button">
-                <i class="fas fa-trash"></i>
-            </button>
-            <button id="dark-light-mode-button" class="quickmenu-button">
-                <i class="fas fa-adjust"></i>
-            </button>
-        </div>
+        <i class="fas fa-angle-up" id="angle-down" onclick="openadv()"></i>
         <a href="/.." onclick="localStorage.clear();" class="backbutton">&larrhk;</a>
     </div>
+
     <h1 id="networkerr" style="display: none;">Network error!</h1>
     <h1 id="invalidkey" style="display: none;">Invalid Key!</h1>
     <h1 id="toomanyrequests" style="display: none;">Too many Requests, try again in a minute!</h1>
+
     <div class="container">
+
         <div class="adv" id="adv">
             <div class="slider-container" id="slider-container" style="display: none;">
                 <div class="slidecontainer">
@@ -77,6 +70,7 @@
                 </button>
             </div>
         </div>
+
         <form id="key-form" class="input-group" style="display: none;">
             <div class="input-group">
                 <label for="key">&#x1F511;</label>

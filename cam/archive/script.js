@@ -127,6 +127,9 @@ function deleteItem(key, name) {
     }
 }
 
+function showLoginForm(){
+    window.location.href = "/../login"; 
+}
 
 if (storedKey) {
     // Trigger API call with stored key and selected value
@@ -153,7 +156,7 @@ if (storedKey) {
             throw new Error("Rate limit exceeded"); 
         }
         if(response.status === 401){
-            window.location.href = "/login"; 
+            showLoginForm();
         }
         return response.json(); 
     })
@@ -228,7 +231,10 @@ if (storedKey) {
 
             // Create the image element
             var image = document.createElement('img');
-            image.src = `${CONFIG.API_URL}/image/`  + storedKey + '/' + name + '.jpg';
+            image.src = `${CONFIG.API_URL}/image/`  + storedKey + '/' + name + '.jpg' + "?resolution=low";
+            // lazy load
+            image.loading = "lazy"
+            image.alt = 'loading...';
 
             // Create the bottom text element
             var bottomTextDiv = document.createElement('div');
@@ -302,7 +308,7 @@ function logout(){
             alert("Error Logging out!")
         }
         else{
-            window.location.href = "/login";
+            window.location.href = "/../login";
         }
     })
 }

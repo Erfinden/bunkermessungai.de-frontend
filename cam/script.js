@@ -1,46 +1,15 @@
-
-document.addEventListener('DOMContentLoaded', function () {
+window.addEventListener('load', function () {
     var storedKey = localStorage.getItem('key');
-
     if (storedKey) {
         showData(storedKey);
     } else {
-        showLoginForm();
+        logout();
     }
 });
-
-//document.querySelector('#key-form').addEventListener('submit', function (event) {
-//    event.preventDefault();
-//    var key = document.getElementById('key').value;
-//    localStorage.setItem('key', key);
-//    showData(key);
-//});
-
-//document.getElementById('logout-button').addEventListener('click', function () {
-//    logout();
-//    showLoginForm();
-//    window.location.reload()
-//});
-
 
 //document.getElementById('delete-account-button').addEventListener('click', function () {
 //    deleteAccount();
 //});
-
-
-function showLoginForm() {
-    
-    var logoutbuttonhide = document.getElementById("logout-button");
-    logoutbuttonhide.style.display = 'none';
-    var keyForm = document.getElementById('key-form');
-    keyForm.style.display = 'flex';
-    keyForm.style.marginTop = "10px";
-    var headr = document.getElementById('header');
-    headr.style.marginLeft = '50px';
-    document.getElementById('email-button').disabled = true;
-    document.querySelector('#key-form .submit-button').style.display = 'flex';
-    document.getElementById('delete-account-button').style.display = 'none';
-}
 
 var sendpercentupper = 50;
 var sendpercentlower = 50;
@@ -55,6 +24,9 @@ function showData(key) {
             if (response.status === 429) {
                 document.getElementById('toomanyrequests').style.display = 'block';
                 console.log("Rate limit exceeded");
+                //turn off anglue-down
+                document.getElementById("angle-down").style.display = "none";
+                document.getElementById("status-light").style.display = "none";
                 throw new Error("Rate limit exceeded"); 
             }
             if(response.status === 401){
@@ -67,9 +39,11 @@ function showData(key) {
                 console.log(data.error)
                 document.getElementById('invalidkey').style.display = 'block';
                 logout()
-                setTimeout(() => window.location.reload(), 2500);
                 return;
             }
+            // Hide the loader after the fetch request is completed
+            const loader = document.getElementById('loading');
+            loader.style.display = 'none';
 
             var imageUrl = data.image_url;
             var textFileUrl = data.text_file_url;
@@ -270,9 +244,6 @@ function showData(key) {
             keyForm.classList.remove('hide');
             keyForm.style.display = 'none';
 
-            var logoutButton = document.getElementById('logout-button');
-            logoutButton.style.display = 'block';
-
             var archive_btn= document.getElementById('archive_btn');
             archive_btn.style.display = 'flex';
 
@@ -284,9 +255,6 @@ function showData(key) {
 
             var emailGroup = document.getElementById('email-group');
             emailGroup.style.display = 'flex';
-
-            var deleteaccountbutton = document.getElementById('delete-account-button');
-            deleteaccountbutton.style.display = 'flex';
 
             var emailGroup = document.getElementById('name-group');
             emailGroup.style.display = 'flex';
@@ -322,40 +290,43 @@ function showData(key) {
             keyInput.readOnly = true;
 
             document.querySelector('#email-group .submit-button').style.display = 'block';
-            $.ajax({
-                type: "POST",
-                url: `${CONFIG.API_URL}/get_diagram`,
-                data: JSON.stringify({"key": key}),  // add your key here
-                contentType: "application/json",
-                dataType: "json",
-                xhrFields: {
-                    withCredentials: true
-                },
-                success: function(data) {
-                    $("#diagram").html(data.graph);
-                    adjustPlotlyChart();  // Adjust the chart width
-                    var diagram = document.querySelector(".diagram");
-                    diagram.style.display = "block";
-                },
-                error: function() {
-                    alert("Failed to update the graph.");
-                }
-            });            
             
-        })
-        .catch(function(error) {
-            if (error.message && error.message.includes('NetworkError')) {
-                var networkerr = document.getElementById('networkerr');
-                networkerr.style.display = 'block';
-                console.error('Network error:', error);
-            } else {
-                console.error('Other error:', error);
-            }
-        });
+/*            fetch(`${CONFIG.API_URL}/get_diagram`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ "key": key }) // add your key here
+            })
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("diagram").innerHTML = data.graph;
+                    adjustPlotlyChart(); // Adjust the chart width
+                    var diagram = document.querySelector(".diagram");
+                    //diagram.style.display = "block";
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    //alert("Failed to update the graph.");
+                });
+*/
+            })
 
-        
 
+    .catch(error => {
+        if (error.message && error.message.includes('NetworkError')) {
+            var networkerr = document.getElementById('networkerr');
+            networkerr.style.display = 'block';
+            console.error('Network error:', error);
+        } else {
+            console.error('Other error:', error);
+        }
+        // Hide the loader even if there is an error
+        const loader = document.getElementById('loading');
+        loader.style.display = 'none';
+    });
 }
+
 
 function updatelowervalue() {
     var key = document.getElementById('key').value;
@@ -455,49 +426,7 @@ function deleteAccount() {
     }
 }
 
-
-function toggleDarkLightMode() {
-    const body = document.body;
-    body.classList.toggle('dark-mode');
-
-    // Store the current mode in localStorage to remember the user's preference
-    const isDarkMode = body.classList.contains('dark-mode');
-    localStorage.setItem('darkMode', isDarkMode);
-}
-
-// Check if Dark Mode is already enabled from localStorage
-document.addEventListener('DOMContentLoaded', function () {
-    const isDarkMode = localStorage.getItem('darkMode') === 'true';
-    if (isDarkMode) {
-        document.body.classList.add('dark-mode');
-    }
-});
-
-// Event listener for the Dark/Light Mode button click
-//document.getElementById('dark-light-mode-button').addEventListener('click', toggleDarkLightMode);
-
-var keyInput = document.getElementById('key');
-
-function toggleKeyVisibility() {
-    var revealButton = document.getElementById('reveal-button');
-
-    if (keyInput.type === 'password') {
-        keyInput.type = 'text';
-        revealButton.innerHTML = '<i class="fas fa-eye-slash"></i>';
-    } else {
-        keyInput.type = 'password';
-        revealButton.innerHTML = '<i class="fas fa-eye"></i>';
-    }
-}
-
-
-document.addEventListener('DOMContentLoaded', function () {
-    const isDarkMode = localStorage.getItem('darkMode') !== 'false'; // Defaults to true
-    if (isDarkMode) {
-        document.body.classList.add('dark-mode');
-    }
-});
-
+document.body.classList.add('dark-mode');
 
 function openquickmenu(x) {
     x.classList.toggle("change");
@@ -550,13 +479,12 @@ function logout(){
             alert("Error Logging out!")
         }
         else{
-            window.location.href = "/login";
+            window.location.href = "/../login";
         }
     })
 }
 
-logout_button = document.getElementById("logout_button");
-logout_button.style="display:none";
+document.getElementById("logout_button").style="display:none";
 
 function show_logout_button(){
     if (logout_button.style.display === "none") {

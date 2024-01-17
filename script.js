@@ -143,6 +143,8 @@ function updateKeys() {
             }
         });
 
+
+
         // Toggle the placeholder message
         if (data.keys.length === 0) {
             placeholderMessage.style.display = "block";
@@ -156,9 +158,15 @@ function updateKeys() {
             titlePlural.style.visibility = "hidden";
         }
     })
+    .then(() => {
+        const loader = document.getElementById('loading');
+        loader.style.display = 'none';
+    })
     .catch(error => {
         console.error('Error:', error);
         alert(error.message);
+        const loader = document.getElementById('loading');
+        loader.style.display = 'none';
     });
 }
 
