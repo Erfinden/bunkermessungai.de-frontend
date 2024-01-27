@@ -20,14 +20,13 @@
     
     <div class="gradiant_bottom"></div>
 
-    <div class="account_profile" onclick="show_logout_button()">
+    <div class="account_profile" onclick="account_page()">
         <div class="account_profile_upper">
             <p id="account_name" >[account_name]</p>
             <span class="material-symbols-outlined">
                 account_circle
             </span>
         </div>
-        <button id="logout_button" class="logout_button" onclick="logout()">logout</button>
     </div>
 
     <div class="header" id="header">
@@ -84,7 +83,8 @@
             </div>
         </form>
         
-        <div class="content">
+        <div style="display: none; margin-top: 30px;" id="camera-not-setup">This Camera is not setup, please follow the instructions!</div>
+        <div class="content" style="display: none;" id="content">
             <div id="content-img">
                 <a href="http://bunkermessungai.local" class="camlink" id="camlink" style="display: none;">📷</a>
                 <div id="image-container"></div>

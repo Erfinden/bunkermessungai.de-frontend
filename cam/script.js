@@ -32,6 +32,13 @@ function showData(key) {
             if(response.status === 401){
                 window.location.href = "/login"; 
             }
+            if(response.status === 402){
+                var statuslight = document.getElementById('status-light');
+                statuslight.style.backgroundColor = "grey";
+                statuslight.title ="Kamera war noch nie Online";
+                document.getElementById("camera-not-setup").style.display = "flex"; 
+                throw new Error("Camera not setup");
+            }
             return response.json(); 
         })
         .then(function (data) {
@@ -41,6 +48,7 @@ function showData(key) {
                 logout()
                 return;
             }
+
             // Hide the loader after the fetch request is completed
             const loader = document.getElementById('loading');
             loader.style.display = 'none';
@@ -273,13 +281,18 @@ function showData(key) {
             if (status == 1){
                 statuslight.style.backgroundColor = "rgba(26, 255, 0)";
                 statuslight.title ="Online";
+                // Show content
+                document.getElementById('content').style.display = 'flex';
             }
             else if (status == 0){
                 statuslight.style.backgroundColor = "red";
                 statuslight.title ="Offline";
+                // Show content
+                document.getElementById('content').style.display = 'flex';
             } else{
                 statuslight.style.backgroundColor = "grey";
                 statuslight.title ="Kamera war noch nie Online";
+                document.getElementById("camera-not-setup").style.display = "flex";
             }
 
             var emailInput = document.getElementById('email');
@@ -292,26 +305,7 @@ function showData(key) {
             keyInput.readOnly = true;
 
             document.querySelector('#email-group .submit-button').style.display = 'block';
-            
-/*            fetch(`${CONFIG.API_URL}/get_diagram`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ "key": key }) // add your key here
-            })
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById("diagram").innerHTML = data.graph;
-                    adjustPlotlyChart(); // Adjust the chart width
-                    var diagram = document.querySelector(".diagram");
-                    //diagram.style.display = "block";
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    //alert("Failed to update the graph.");
-                });
-*/
+        
             })
 
 
@@ -486,13 +480,7 @@ function logout(){
     })
 }
 
-document.getElementById("logout_button").style="display:none";
 
-function show_logout_button(){
-    if (logout_button.style.display === "none") {
-        	logout_button.style="display:block";
-    }
-    else{
-        logout_button.style="display:none";
-    }
+function account_page(){
+    window.location.href = "/../account";
 }

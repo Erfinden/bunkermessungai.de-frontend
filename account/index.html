@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bunkermessungai Your Account</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="title">
+        <a href="/../" class="back"><span class="material-icons">arrow_back</span></a>
+        <h1>Bunkermessungai</h1>
+        <button class="logout" onclick="logout()">
+            <span class="material-symbols-outlined">logout</span>
+        </button> 
+    </div>
+    <div class="main"> 
+        <div class="account_section">
+            <div class="account_details">
+
+                <div class="account_name">
+                    <span class="material-symbols-outlined">account_circle</span>
+                    <span class="account_details_text" id="username" contenteditable="false" title="No spaces allowed">{username}</span>
+                </div>
+
+                <div class="full_name">
+                    <span class="material-symbols-outlined">person</span>
+                    <span class="account_details_text" id="full_name" contenteditable="false"> {full_name}</span>
+                </div>
+
+                <div class="password">
+                    <span class="material-symbols-outlined">lock</span>
+                    <span class="account_details_text" id="password">********</span>
+                </div>
+
+                <div class="email">
+                    <span class="material-symbols-outlined">email</span>
+                    <span class="account_details_text" id="email" contenteditable="false">{email}</span>
+                </div>
+
+                <div class="region">
+                    <span class="material-symbols-outlined">location_on</span>
+                    <span class="account_details_text" id="region">{region}</span>
+                    <button id="map_popup_button" onclick="showMapPopup()"><span class="material-symbols-outlined">map</span></button>
+                </div>
+
+                <div id="mapPopup" class="map_popup_container">
+                    <div id="map"></div>
+                    <button id="close_button" onclick="closeMapPopup()"><span class="material-symbols-outlined">close</span></button>
+                </div>
+            </div>
+
+            <div class="edit">
+                <button id="edit_button" onclick="toggleEdit()">
+                    <span class="material-symbols-outlined">edit</span>
+                </button>
+                
+                <button id="save_button" onclick="save()" style="display: none;">
+                    <span class="material-symbols-outlined">check_circle</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="notification_section">
+            <h1>Notification Settings</h1>
+            <div class="notification_users_list">
+                <div class="notification_admin">
+                    Admin: {email}
+                </div>
+                <div class="notification_users">
+                    <div class="user"><div class="usercontent">{username}: {email} | {permission}</div> <button class="notification_delete">🗑️</button></div>
+                </div>
+            </div>
+            <button id="add_user">+</button>
+        </div>
+        
+
+        <div class="camera_section">
+            <div class="camera-1">
+                
+                <div class="camera-details">
+                    <div class="statuslight"></div>
+                    <div class="camera-name">{camera_name}</div>
+                </div>
+                <div class="camera-graph">
+                    <div id="graph">Diagramm wird noch erstellt</div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <script src="../config.js"></script>
+    <script defer src="script.js"></script>
+</body>
+</html>

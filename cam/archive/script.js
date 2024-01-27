@@ -317,11 +317,6 @@ function logout(){
 logout_button = document.getElementById("logout_button");
 logout_button.style="display:none";
 
-function show_logout_botton(){
-    if (logout_button.style.display === "none") {
-        	logout_button.style="display:block";
-    }
-    else{
-        logout_button.style="display:none";
-    }
+function account_page(){
+    window.location.href = "/../account";
 }

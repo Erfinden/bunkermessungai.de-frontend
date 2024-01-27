@@ -87,4 +87,11 @@ body {
   top: 0;
   left: 0;
   margin: 20px;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  transition: ease-in-out 0.3s;
+}
+.back:hover{
+  background:rgba(255, 255, 255, 0.1);
 }
