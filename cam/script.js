@@ -62,6 +62,12 @@ function showData(key) {
             sendpercentlower = data.sendpercentlower;
             sendpercentupper = data.sendpercentupper;
 
+            if (name){
+                document.title = "Camera: " + name;
+            }else{
+                document.title = "Camera (key): " + key;
+            }
+
             if(username){
                 document.querySelector("#account_name").innerHTML = username;
             }

@@ -443,6 +443,8 @@ body {
 
 .content{
     border-radius: 20px;
+    display: flex;
+    flex-direction: column;
 }
 
 .container #image-container{
