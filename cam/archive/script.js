@@ -164,6 +164,10 @@ if (storedKey) {
         // Handle the API response here
         console.log('API response:', data);
 
+        if (data.names.length === 0) {
+            document.getElementById('no-images').style.display = 'block';
+        }
+        
         if(data.username){
             document.querySelector("#account_name").innerHTML = data.username;
         }
@@ -296,26 +300,6 @@ if (storedKey) {
     showLoginForm();
 }
 });
-
-
-function logout(){
-    localStorage.removeItem('key');
-    fetch(`${CONFIG.API_URL}/logout`, {
-        method: 'POST',
-        credentials: 'include',
-    })
-    .then(response => {
-        if (!response.ok) {
-            alert("Error Logging out!")
-        }
-        else{
-            window.location.href = "/../login";
-        }
-    })
-}
-
-logout_button = document.getElementById("logout_button");
-logout_button.style="display:none";
 
 function account_page(){
     window.location.href = "/../account";

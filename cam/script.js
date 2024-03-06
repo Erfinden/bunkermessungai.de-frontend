@@ -327,8 +327,24 @@ function showData(key) {
         const loader = document.getElementById('loading');
         loader.style.display = 'none';
     });
+    loadDiagram(key);
 }
 
+function loadDiagram(key) {
+    var formData = new FormData();
+    formData.append('key', key);
+
+    fetch(`${CONFIG.API_URL}/get_diagram`, {
+        method: 'POST',
+        body: formData,
+        credentials: 'include'
+    })
+    .then(response => response.text())
+    .then(data => {
+        //var iframe = document.getElementById('diagram');
+        //iframe.srcdoc = `<style> body { backgroud: red; !important }</style>` + data;
+    });
+}
 
 function updatelowervalue() {
     var key = document.getElementById('key').value;
@@ -462,12 +478,7 @@ function openadv() {
     angleDownIcon.style.transform = `rotate(${rotationDegree}deg)`;
 }
 
-function adjustPlotlyChart() {
-    var plotlyChart = document.querySelector('#diagramm .plotly-graph-div');
-    if (plotlyChart) {
-        plotlyChart.style.width = '100%';
-    }
-}
+
 
 
 function logout(){
